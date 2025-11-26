@@ -49,19 +49,25 @@ section{
     scroll-snap-stop: always;
 }
 
-.reel img{
+.reel video{
     height: 100%;
     width: 100%;
     object-fit: cover;
 }
 
-.bottom{
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.868));
-    padding: 10px 20px;
-    
+.bottom {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
+  padding: 20px;
+}
+
+.bottom h4 {
+  font-size: 13px;
+  font-weight: 300;
+  margin-bottom: 5px;
+  line-height: 1.4;
 }
 
 .user{
@@ -96,6 +102,10 @@ button{
     cursor: pointer;
 }
 
+button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
 .bottom>h4{
     font-weight: 400;
     font-size: 12px;
@@ -127,3 +137,8 @@ button{
     align-items: center;
     gap: 5px;
 }
+
+.liked{
+    color: red;
+}
+
