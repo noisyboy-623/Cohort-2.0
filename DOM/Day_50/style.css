@@ -53,6 +53,7 @@ section{
     height: 100%;
     width: 100%;
     object-fit: cover;
+    pointer-events: none;
 }
 
 .bottom {
@@ -92,7 +93,7 @@ section{
 }
 
 button{
-    margin-left: 85px;
+    margin-left: 75px;
     padding: 5px 10px;
     border: 1px solid white;
     border-radius: 5px;
@@ -115,6 +116,7 @@ button:hover {
 .right{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
     /* transform: translateX(100%); */
     position: absolute;
@@ -123,6 +125,15 @@ button:hover {
     width: 40px;
     padding: 20px;
     text-align: center;
+}
+
+.right > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 50px;
+    cursor:pointer
 }
 
 .right i{
@@ -141,4 +152,50 @@ button:hover {
 .liked{
     color: red;
 }
+
+.right>div h4, .right>div h5{
+    pointer-events: none;
+}
+
+/* .mute{
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    bottom: 30px;
+    right: 20px; 
+    z-index: 10 ; 
+    background-color: rgb(255, 0, 0);  
+    border-radius: 50%;
+    
+}
+
+.mute i{
+    width: 12px;
+    height: 12px;
+    color: white;
+    font-weight: 100;
+
+} */
+
+.mute {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    bottom: 30px;
+    right: 16px; 
+    z-index: 10; 
+    background-color: #7d7d7d73;  
+    border-radius: 50%;
+    display: flex;         
+    align-items: center;    
+    justify-content: center;
+}
+
+.mute i {
+    font-size: 14px;
+    color: white;
+    font-weight: 100;
+    pointer-events: none;
+}
+
 
