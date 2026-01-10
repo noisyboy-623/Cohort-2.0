@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+}
+
+.main{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.main img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+.taskbar{
+    width: 100%;
+    height: 40px;
+    background-color: rgba(77, 71, 71, 0);
+    position: absolute;
+    bottom: 0px;
+    transition: all 1s ease-in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.searchBar{
+  width: 200px;
+  height: 80%;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.245);
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  gap: 5px;
+  cursor: text;
+}
+
+.taskbar>i::after{
+  content: attr(data-tip);
+    position: absolute;
+    bottom: 60px;
+    left: auto;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(0, 0, 0, 0.451);
+    color: white;
+    padding: 10px;
+    font-size: 13px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: 
+        opacity 0.45s ease,
+        transform 0.45s ease;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+/* .searchBar::before {
+    content: "";
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+} */
+.taskbar>i:hover::after,
+.taskbar>i:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.searchBar i{
+  margin-bottom: 2px;
+  opacity: 0.6;
+  color: white;
+}
+
+.searchBar p{
+  color: white;
+  margin-bottom: 4px;
+  opacity: 0.6;
+}
+
+.searchBar:active{
+  background-color: #1FCF60;
+}
+
+.taskbar>i{
+  font-size: 28px;
+  transition: all 0.1s ease-in;
+}
+
+.ri-microsoft-fill{
+  color: #4692DD;
+  font-size: 30px !important;
+  padding: 5px;
+}
+.ri-folder-6-fill{
+  color: #F0BB40;
+  padding: 5px;
+}
+.ri-whatsapp-line{
+  color: #1FCF60;
+  padding: 5px;
+}
+
+.ri-copilot-fill{
+  color: rgba(255, 255, 255, 0.73);
+  padding: 5px;
+}
+
+.ri-github-fill{
+  color: white;
+  padding: 5px;
+}
+
+.ri-spotify-fill{
+  color: #1FCF60;
+  padding: 5px;
+}
+
+.taskbar>i:hover{
+  background-color: rgba(255, 255, 255, 0.185);
+  border-radius: 5px;
+  margin: 25px 0px; 
+}
+
+/* 
+.visibleBar{
+  width: 100%;
+    height: 50px;
+    background-color: rgb(255, 10, 10);
+    position: absolute;
+    bottom: 0px;
+    display: block;
+    transition: all 1s ease-in;
+} */
+
+.rtClick{
+  width: 180px;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.447);
+  position: absolute;
+  display: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
