@@ -1,28 +1,31 @@
 :root {
-  /* existing */
+
   --pri: #F6F0D7;
   --sec: #C5D89D;
   --tri1: #9CAB84;
   --tri2: #89986D;
   --text: #4A5A45;
 
-  /* NEW – neutrals & surfaces */
+  /* neutrals & surfaces */
   --surface: #edf5c9;        /* light card surface */
   --surface-strong: #E4EAC8; /* stronger card bg */
   --border-soft: #B7C892;
   --input-bg: #F3F6E6;
   --placeholder: #7C8A73;
 
-  /* NEW – actions */
+  /* actions */
   --btn-primary: #9CAB84;
   --btn-primary-hover: #89986D;
   --btn-text: #2F3A2E;
   --btn-muted-bg: #E9EED5;
   --btn-muted-hover: #DDE6C1;
 
-  /* NEW – task states */
+  /* task states */
   --task-bg: #E6EBCF;
   --task-hover: #DCE3BF;
+
+  /* font size */
+  --headings: 60px
 }
 
 @font-face {
@@ -152,8 +155,10 @@ section.allElem{
   scale: 0.97;
 }
 
+/* To-Do list */
+
 .todo-list-fullpage h2{
-    font-size: 60px;
+    font-size: var(--headings);
 }
 
 .todo-list-fullpage .todo-container{
@@ -233,7 +238,7 @@ section.allElem{
 .todo-list-fullpage .todo-container .all-tasks{
     width: 65%;
     height: 100%;
-    background-color: var(--surface);
+    background-color: var(--surface-strong);
     border-radius: 10px;
     padding: 30px;
     display: flex;
@@ -247,8 +252,9 @@ section.allElem{
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    background-color: var(--task-bg);
+    background-color: var(--surface);
     border: 1px solid var(--border-soft);
+    color: var(--text);
     padding: 20px 30px;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -318,3 +324,51 @@ section.allElem{
     font-size: 20px;
 }
 
+.daily-planner-fullpage h2{
+    font-size: var(--headings);
+}
+
+.daily-planner-fullpage .day-planner{
+    background-color: var(--surface-strong);
+    height: 85%;
+    margin-top: 40px;
+    width: 100%;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    overflow: auto;
+}
+
+.daily-planner-fullpage .day-planner .day-planner-time{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 49%;
+    margin-bottom: 15px;
+}
+
+.day-planner .day-planner-time p{
+    position: absolute;
+    top: 12%;
+    left: 2%;
+    font-size: 16px;
+}
+
+.day-planner .day-planner-time input{
+    padding: 20px 45px;
+    width: 100%;
+    background-color: var(--surface);
+    color: var(--text);
+    border-radius: 5px;
+    border: none;
+    font-size: 32px;
+    padding-top: 34px;
+    outline: none;
+}
+
+.day-planner-time input::placeholder{
+    color: var(--placeholder);
+}

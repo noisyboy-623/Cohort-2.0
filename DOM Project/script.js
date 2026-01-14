@@ -67,7 +67,7 @@ function todoList() {
     });
 
     renderTasks();
-    
+
     taskInput.value = "";
     taskDetailsInput.value = "";
     taskCheckbox.value = false;
@@ -76,3 +76,37 @@ function todoList() {
 
 todoList();
 
+function dailyPlanner() {
+  let dayPlanData = JSON.parse(localStorage.getItem("dayPlanData")) || {};
+
+  var hours = Array.from(
+    { length: 18 },
+    (
+      _,
+      idx //creates a shallow copy of array with length 18
+    ) => `${6 + idx}:00 - ${7 + idx}:00`
+  );
+
+  var wholeDaySum = "";
+
+  hours.forEach((elem, idx) => {
+    var savedData = dayPlanData[idx] || "";
+    wholeDaySum =
+      wholeDaySum +
+      `<div class="day-planner-time">
+        <p>${elem}</p>
+        <input id=${idx} type="text" placeholder="..." value = ${savedData}>
+    </div>`;
+  });
+
+  document.querySelector(".day-planner").innerHTML = wholeDaySum;
+
+  document.querySelectorAll(".day-planner input").forEach((elem) => {
+    elem.addEventListener("input", () => {
+      dayPlanData[elem.id] = elem.value;
+      localStorage.setItem("dayPlanData", JSON.stringify(dayPlanData));
+    });
+  });
+}
+
+dailyPlanner();
