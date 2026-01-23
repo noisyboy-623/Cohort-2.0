@@ -1,1 +1,0 @@
-Class on responsiveness of website, Designed a section of the website "https://alvy-template.webflow.io/studio"

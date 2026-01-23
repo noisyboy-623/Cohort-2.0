@@ -1,1 +1,0 @@
-Creating a random greeting generator

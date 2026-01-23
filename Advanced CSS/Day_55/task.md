@@ -1,2 +1,0 @@
-Anchor
-has operator

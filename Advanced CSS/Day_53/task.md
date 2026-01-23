@@ -1,1 +1,0 @@
-Matrix style text reveal effect
