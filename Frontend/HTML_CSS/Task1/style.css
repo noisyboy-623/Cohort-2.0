@@ -1,0 +1,64 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    width: 100%;
+}
+.head {
+    background-color: #282c34;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+}
+#name {
+    font-size: 3em;
+    margin-bottom: 30px;
+}
+#info {
+    font-weight: 100;
+    font-size: 20px;
+}
+.about {
+    background-color: aliceblue;
+    padding: 50px;
+    margin: 40px;
+    text-align: center;
+}
+#abt{
+    margin-bottom: 20px;
+    font-size: 30px;
+    text-transform: uppercase;
+}
+#intro{
+    font-weight: 400;
+    font-size: 20px;
+}
+.edu{
+    background-color: #eae2f3;
+}
+.deg{
+    background-color: white;
+    margin: 10px 150px;
+    padding: 10px;
+    font-weight: 400;
+    font-size: 20px;
+}
+.skills{
+    background-color: #e0f7fa;
+}
+.projects{
+    background-color: #fff3e0;
+    font-style: italic;
+}
+.contact{
+    background-color: #e7f6ea;
+}
+.skl{
+    text-transform: uppercase;
+}
+#foot{
+    padding: 20px;
+}

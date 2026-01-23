@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+    height: 100%;
+    width: 100%;
+      background-color: black;
+} 
+
+body {
+  height: 100%;
+    width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  anchor-name: --some;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+}
+
+.box{
+    height: 200px;
+    width: 200px;
+    background-color: aquamarine;
+    border-radius: 10px;
+}
+
+.box:hover{
+  anchor-name: --some;  
+}
+
+.red{
+    background-color: red;
+}
+
+.blue{
+    background-color: blue;
+}
+
+.green{
+    background-color: green;
+}
+
+.anchor{
+    position: absolute;
+    background-color:white;
+    /* height: 50px;
+    width: 70px; */
+    border-radius: 10px;
+    position-anchor: --some;
+    left: anchor(left);
+    top: anchor(top);
+    right: anchor(right);
+    bottom: anchor(bottom);
+    pointer-events: none;
+    mix-blend-mode: difference;
+    transition: all 0.3s linear;
+}

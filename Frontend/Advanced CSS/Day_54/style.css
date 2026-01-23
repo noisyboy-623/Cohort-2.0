@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+}
+
+img{
+    width: 100%;
+}
+
+@property --rotate{
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes rotateAnim {
+    from{
+        --rotate: 0deg
+    }
+    to{
+        --rotate: 360deg
+    }
+    
+}
+
+.card{
+    max-width: 350px;
+    padding-inline: 10px;
+    padding-bottom: 10px;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0px 0px 0px red;
+    border-radius: 15px;
+    animation: rotateAnim 3.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-play-state: paused;
+    background: linear-gradient(black) padding-box,
+                conic-gradient(from var(--rotate), black,black,red,black) border-box;
+    border: 0px solid rgba(245, 245, 245, 0);
+    text-shadow: 0px 0px 0px white;
+    user-select: none;
+    transition: all 0.3s linear;
+    color: white;
+}
+
+.card:hover{
+    animation-play-state: running;
+    border-width: 5px;
+    box-shadow: 0px 0px 50px red;
+    color: rgb(183, 53, 53);
+    text-shadow: 0px 0px 10px rgb(255, 0, 0);
+}
