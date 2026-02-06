@@ -1,4 +1,0 @@
-Built a production grade notes application where user user can write, store and fetch the notes
-
-schema: used to the define the type of data that will be stored in the database
-models: used for performing CRUD operations, without this no operations can be performed on the database 
