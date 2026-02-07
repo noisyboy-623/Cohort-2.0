@@ -1,1 +1,0 @@
-Built a production grade notes application where user user can write, store, fetch, update and delete the notes.
