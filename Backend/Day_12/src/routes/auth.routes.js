@@ -2,12 +2,12 @@ const express = require("express");
 const userModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
-const crypto = require('crypto')
+const crypto = require("crypto");
 
 authRouter.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
-  const hash = crypto.createHash("md5").update(password).digest("hex")
+  const hash = crypto.createHash("md5").update(password).digest("hex");
 
   const userExists = await userModel.findOne({ email });
 
@@ -50,7 +50,8 @@ authRouter.post("/login", async (req, res) => {
     });
   }
 
-  const isPassword = user.password === crypto.createHash("md5").update(password).digest("hex");
+  const isPassword =
+    user.password === crypto.createHash("md5").update(password).digest("hex");
 
   if (!isPassword) {
     return res.status(401).json({
@@ -65,7 +66,7 @@ authRouter.post("/login", async (req, res) => {
     process.env.JWT_SECRET,
   );
 
-  res.cookie("jwt_token", token)
+  res.cookie("jwt_token", token);
 
   res.status(200).json({
     message: "user logged in",
