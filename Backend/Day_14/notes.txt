@@ -1,0 +1,5 @@
+Backend Day_14, Insta Clone Day-1 : Insta clone project initiated, created basic folder structure and insatalling required pacakges.
+Backend Day_14, Insta Clone Day-2 : Created auth routes and implemented user authorization, user schema, user model, and user controller.
+Backend Day_14, Insta Clone Day-3 : Created post routes and implemented authentication for post creation along with post schema and post model and post controller.
+Backend Day_14, Insta Clone Day-4 : Created getPostsController and getPostDetailsController
+Backend Day_14, Insta Clone Day-5 : Intrduced middlewares, created auth middleware, and follow model
