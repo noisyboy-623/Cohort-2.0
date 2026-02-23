@@ -5,6 +5,11 @@ const identifyUser = require("../middlewares/auth.middleware");
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
 
+/*
+@route POST /api/post/
+@desc Create a new post
+*/
+
 postRouter.post(
   "/",
   upload.single("image"),
@@ -12,16 +17,33 @@ postRouter.post(
   postController.createPostController,
 );
 
-postRouter.get(
-  "/",
-  identifyUser, 
-  postController.getPostsController
-);
+/*
+@route GET /api/post/
+@desc Get all posts for the authenticated user and their followings
+*/
+
+postRouter.get("/", identifyUser, postController.getPostsController);
+
+/*
+@route GET /api/post/details/:postId
+@desc Get details of a specific post by its ID
+*/
 
 postRouter.get(
   "/details/:postId",
   identifyUser,
   postController.getPostDetailsController,
+);
+
+/*
+@route POST /api/post/likes/:postId
+@desc Like a post by its ID
+*/
+
+postRouter.post(
+  "/likes/:postId", 
+  identifyUser, 
+  postController.likePostController
 );
 
 module.exports = postRouter;

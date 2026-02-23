@@ -3,3 +3,4 @@ Backend Day_14, Insta Clone Day-2 : Created auth routes and implemented user aut
 Backend Day_14, Insta Clone Day-3 : Created post routes and implemented authentication for post creation along with post schema and post model and post controller.
 Backend Day_14, Insta Clone Day-4 : Created getPostsController and getPostDetailsController
 Backend Day_14, Insta Clone Day-5 : Intrduced middlewares, created auth middleware, and follow model
+Backend Day_14, Insta Clone Day_6 : Created follow, unfollow and likes feature
