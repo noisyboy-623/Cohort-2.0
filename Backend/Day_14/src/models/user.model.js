@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     default:
       "https://ik.imagekit.io/x2gd4sgsg/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg",
   },
+  isPrivate: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const userModel = mongoose.model("Users", userSchema);

@@ -4,3 +4,4 @@ Backend Day_14, Insta Clone Day-3 : Created post routes and implemented authenti
 Backend Day_14, Insta Clone Day-4 : Created getPostsController and getPostDetailsController
 Backend Day_14, Insta Clone Day-5 : Intrduced middlewares, created auth middleware, and follow model
 Backend Day_14, Insta Clone Day_6 : Created follow, unfollow and likes feature
+Backend Day_14, Insta Clone Day_6 (Task) : Implemented penfing request feature, If the account is private then the user will have to send a follow request and the account owner can accept or reject the request.

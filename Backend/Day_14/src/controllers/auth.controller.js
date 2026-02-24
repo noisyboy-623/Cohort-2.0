@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs')
 
 async function registerController(req, res) {
-  const { username, email, password, bio, profileImage } = req.body;
+  const { username, email, password, bio, profileImage, isPrivate } = req.body;
   const hash = await bcrypt.hash(password, 10);
 
   const userExists = await userModel.findOne({
@@ -30,6 +30,7 @@ async function registerController(req, res) {
     password: hash,
     bio,
     profileImage,
+    isPrivate
   });
 
   const token = jwt.sign(
@@ -50,6 +51,7 @@ async function registerController(req, res) {
       username: user.username,
       bio: user.bio,
       profileImage: user.profileImage,
+      isPrivate: user.isPrivate
     },
   });
 }
