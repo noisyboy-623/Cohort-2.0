@@ -6,3 +6,4 @@ Backend Day_14, Insta Clone Day-5 : Introduced middlewares, created auth middlew
 Backend Day_14, Insta Clone Day_6 : Created follow, unfollow and likes feature
 Backend Day_14, Insta Clone Day_6 (Task) : Implemented penfing request feature, If the account is private then the user will have to send a follow request and the account owner can accept or reject the request.
 Backend Day_14, Insta Clone Day_7 : Initialized and configured the React application, implemented login and registration UI, set up SASS with a live compiler, and created a basic layout for the application.
+Backend Day_14, Insta Clone Day_8 : Implemented frontend authentication with protected routes, integrated login/register APIs, managed auth state using React Context API, and maintained a clean 4-layer architecture with structured components and pages. 
