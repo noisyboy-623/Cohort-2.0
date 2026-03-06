@@ -38,7 +38,7 @@ export function usePost() {
 
   useEffect(() => {
     handleGetFeed();
-  }, []);
+  });
 
   return {
     loading,
