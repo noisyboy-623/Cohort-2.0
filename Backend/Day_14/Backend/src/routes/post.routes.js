@@ -46,4 +46,26 @@ postRouter.post(
   postController.likePostController
 );
 
+/*
+@route POST /api/post/unlike/:postId
+@desc Unlike a post by its ID
+*/
+
+postRouter.post(
+  "/unlike/:postId",
+  identifyUser,
+  postController.unlikePostController
+)
+
+/*
+@route GET /api/post/feed
+@desc Get the feed of posts for the authenticated user and their followings
+*/
+
+postRouter.get(
+  "/feed",
+  identifyUser,
+  postController.getFeedController
+)
+
 module.exports = postRouter;

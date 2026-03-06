@@ -28,17 +28,7 @@ main {
       outline: none;
     }
 
-    button {
-      background-color: #bd0c23;
-      color: whitesmoke;
-      cursor: pointer;
-      transition: all 0.3s linear;
-
-      &:hover {
-        background-color: #333333;
-        scale: 1.02;
-      }
-    }
+    
   }
 
   .toggleAuthForm {

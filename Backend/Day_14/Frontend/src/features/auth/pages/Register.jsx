@@ -1,29 +1,25 @@
-// import React, { useState } from "react";
-import { Link } from "react-router";
-// import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 const Register = () => {
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const {handleRegister, loading} = useAuth()
+  const navigate = useNavigate()
+
+  if(loading){
+    return (<main><h1>Loading...</h1></main>)
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-   /* axios.post(
-      "http://localhost:3000/api/auth/register",
-      {
-        username,
-        email,
-        password,
-      },
-      {
-        withCredentials: true,
-      },
-    )
-    .then(res => {
-      console.log(res.data)
-    }) */
+    await handleRegister (username, email, password)
+    navigate("/")
+
   }
 
   return (
@@ -31,7 +27,7 @@ const Register = () => {
       <div className="form-container">
         <h1>Register</h1>
         <form onSubmit={handleSubmit}>
-          {/* <input
+          <input
             onInput={(e) => {
               setUsername(e.target.value);
             }}
@@ -54,8 +50,8 @@ const Register = () => {
             type="password"
             name="password"
             placeholder="Enter Password"
-          /> */}
-          <button type="submit">Register</button>
+          />
+          <button className="button primary-button" type="submit">Register</button>
         </form>
         <p>
           Already have an account?{" "}

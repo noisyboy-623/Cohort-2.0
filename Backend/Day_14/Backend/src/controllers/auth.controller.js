@@ -67,8 +67,8 @@ async function loginController(req, res) {
       {
         username: username,
       },
-    ],
-  });
+    ]
+  }).select("+password")
 
   if (!user) {
     return res.status(404).json({

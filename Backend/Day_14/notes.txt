@@ -17,3 +17,7 @@ Backend Day_14, Insta Clone Day_7 : Initialized and configured the React applica
 Backend Day_14, Insta Clone Day_8 : Implemented frontend authentication with protected routes, integrated login/register APIs, managed auth state using React Context API, and maintained a clean 4-layer architecture with structured components and pages. 4 layer architecture => UI layer (shows UI only) => Hook layer (manages state and api layer) => State layer (manages states eg- loading, user, post states etc) => API layer (communicates with the backend).
 
 Backend Day_14, Insta Clone Day_9 : Revised the project structure and project implemented till now.
+
+Backend Day_14, Insta Clone Day_10 :  Implemented the feature to view all posts on the homepage connected the getPosts API with the frontend, and displayed the posts on the homepage using React's four layer architecture.
+
+Backend Day_14, Insta Clone Day_11 : Implemented the post creation, like and dislike feature on the frontend, and managed these feature using React's four layer architecture.

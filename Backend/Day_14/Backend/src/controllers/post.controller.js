@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const likeModel = require("../models/likes.model");
 
 const imageKit = new ImageKit({
-  privateKey: process.env.IMAGEKIT_PRIVATE_KEY, // This is the default and can be omitted
+  privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
 });
 
 async function createPostController(req, res) {
@@ -71,7 +71,7 @@ async function getPostDetailsController(req, res) {
 async function likePostController(req, res) {
   const username = req.user.username;
   const postId = req.params.postId;
-
+  console.log(postId, username)
   const post = await postModel.findById(postId);
 
   if (!post) {
@@ -87,13 +87,58 @@ async function likePostController(req, res) {
 
   res.status(200).json({
     message: "Post liked successfully",
-    like
-  })
+    like,
+  });
+}
+
+async function unlikePostController(req, res) {
+  const username = req.user.username;
+  const postId = req.params.postId;
+
+  const isLiked = await likeModel.findOne({
+    post: postId,
+    user: username,
+  });
+
+  if (!isLiked) {
+    return res.status(400).json({
+      message: "Post isn't liked",
+    });
+  }
+
+  await likeModel.findOneAndDelete({ _id: isLiked._id });
+
+  return res.status(200).json({
+    message: "Post disliked",
+  });
+}
+
+async function getFeedController(req, res) {
+  const user = req.user;
+
+  const posts = await Promise.all(
+    (await postModel.find().populate("user").lean()).map(async (post) => {
+      const isLiked = await likeModel.findOne({
+        user: user.username,
+        post: post._id,
+      });
+      post.isLiked = Boolean(isLiked);
+
+      return post;
+    }),
+  );
+
+  res.status(200).json({
+    message: "Posts fetched successfully",
+    posts,
+  });
 }
 
 module.exports = {
   createPostController,
   getPostsController,
   getPostDetailsController,
-  likePostController
+  likePostController,
+  unlikePostController,
+  getFeedController,
 };
