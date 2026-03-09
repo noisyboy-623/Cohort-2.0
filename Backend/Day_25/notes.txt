@@ -1,2 +1,3 @@
 Backend Day_25, Moodify Day-1 : Moodify project initiated, created basic folder structure and insatalling required pacakges, and set up basic mood detection functionality using google's mediapipe library.
 
+Backend Day_25, Moodify Day-2 : Implemented authentication and user management features, allowing users to create accounts and log in securely. Integrated JWT for token-based authentication.
