@@ -1,0 +1,2 @@
+Backend Day_25, Moodify Day-1 : Moodify project initiated, created basic folder structure and insatalling required pacakges, and set up basic mood detection functionality using google's mediapipe library.
+
