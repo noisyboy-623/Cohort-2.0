@@ -1,0 +1,27 @@
+// $accent: #7C5CFF;
+// $accent-hover: #9B82FF;
+
+$accent: #F97316;
+$accent-hover: #FB923C;
+
+.button {
+  width: 100%;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: none;
+  background: $accent;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: 0.4rem;
+
+  &:hover {
+    background: $accent-hover;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

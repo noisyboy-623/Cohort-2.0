@@ -5,3 +5,5 @@ Backend Day_25, Moodify Day-2 : Implemented authentication and user management f
 Backend Day_25, Moodify Day-3 : Introduced middlewares to the application for handling authentication and authorization, ensuring that only authenticated users can access certain routes and implemented token blacklisting using Mongo DB for enhanced security, allowing users to log out and invalidate their tokens. 
 
 Backend Day_25, Moodify Day-4 : Introduced Redis for token blacklisting, allowing for efficient storage and retrieval of blacklisted tokens. Implemented token expiration handling to ensure that expired tokens are automatically removed from the blacklist.
+
+Backend Day_25, Moodify Day-5 : Integrated the frontend with the backend to support user authentication (register, login, logout). Implemented protected routes to control access based on authentication state and followed a 4-layer architecture in React for better organization and separation of concerns.
