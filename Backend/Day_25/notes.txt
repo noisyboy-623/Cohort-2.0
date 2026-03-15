@@ -7,3 +7,5 @@ Backend Day_25, Moodify Day-3 : Introduced middlewares to the application for ha
 Backend Day_25, Moodify Day-4 : Introduced Redis for token blacklisting, allowing for efficient storage and retrieval of blacklisted tokens. Implemented token expiration handling to ensure that expired tokens are automatically removed from the blacklist.
 
 Backend Day_25, Moodify Day-5 : Integrated the frontend with the backend to support user authentication (register, login, logout). Implemented protected routes to control access based on authentication state and followed a 4-layer architecture in React for better organization and separation of concerns.
+
+Backend Day_25, Moodify Day-6 : Implemented song upload functionality, allowing users to upload songs along with their associated moods with the help of Multer middleware for handling multipart/form-data and stored all the data on imagekit. Created a song context to manage the state of the currently playing song and its associated information, such as the song URL, poster URL, title, and mood. This context allows for easy access and updates to the song information across different components in the application.

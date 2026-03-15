@@ -1,0 +1,224 @@
+$bg-main: #0F1115;
+$bg-card: #1A1D24;
+$bg-input: #232730;
+$accent: #F97316;
+$text-main: #F3F4F6;
+$text-muted: #9CA3AF;
+
+.player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: $bg-card;
+  border-top: 1px solid #2B2F3A; /* Slightly lighter border for depth */
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+/* LEFT SECTION */
+.player-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  img {
+    width: 56px;
+    height: 56px;
+    border-radius: 4px; /* Slightly sharper edges */
+    object-fit: cover;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .song-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h4 {
+      margin: 0 0 4px 0;
+      font-size: 14px;
+      color: $text-main;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      color: $text-muted;
+      cursor: pointer;
+
+      &:hover {
+        color: $text-main;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+/* CENTER SECTION */
+.player-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: $text-main;
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s, transform 0.2s;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.secondary {
+        font-size: 14px;
+        color: $text-muted;
+      }
+    }
+
+    .play-btn {
+      background: $text-main;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $bg-main;
+      cursor: pointer;
+      font-size: 14px;
+      transition: transform 0.2s, background-color 0.2s;
+
+      &:hover {
+        transform: scale(1.08);
+        background: $accent;
+        color: white;
+      }
+    }
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+
+    .time {
+      font-size: 11px;
+      color: $text-muted;
+      min-width: 40px;
+      text-align: center;
+    }
+  }
+}
+
+/* RIGHT SECTION */
+.player-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+
+  .volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .icon-muted {
+      color: $text-muted;
+      font-size: 14px;
+    }
+  }
+
+  .speed-control {
+    background: transparent;
+    border: 1px solid $text-muted;
+    color: $text-muted;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s;
+
+    &:hover {
+      border-color: $text-main;
+      color: $text-main;
+    }
+
+    option {
+      background: $bg-input;
+      color: $text-main;
+    }
+  }
+}
+
+/* CUSTOM RANGE INPUT STYLING */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  transition: height 0.1s;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: $text-main;
+    cursor: pointer;
+    opacity: 0; /* Hidden until hover */
+    transition: opacity 0.2s;
+  }
+
+  &:hover::-webkit-slider-thumb {
+    opacity: 1;
+  }
+
+  &::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: $text-main;
+    cursor: pointer;
+    border: none;
+    opacity: 0;
+  }
+
+  &:hover::-moz-range-thumb {
+    opacity: 1;
+  }
+}
+
+.volume-bar {
+  width: 90px !important;
+}
