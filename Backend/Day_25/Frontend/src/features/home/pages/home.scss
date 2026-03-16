@@ -1,16 +1,111 @@
-.home {
-  min-height: 100vh;
-  background: #0F1115;
+.app-layout {
+  display: grid;
+  grid-template-columns: 230px 1fr 340px;
+  grid-template-rows: 1fr 90px;
+  height: 100vh;
+  background: linear-gradient(180deg,#0F1115,#090B0F);
   color: white;
+}
 
+.sidebar {
+  grid-row: 1 / span 2;
+}
+
+.center-content {// Use your established variables for consistency 
+$bg-main: #0F1115;
+$bg-card: #1A1D24;
+$accent: #F97316;
+$text-muted: #9CA3AF;
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr 320px;
+  grid-template-rows: 1fr 90px;
+  height: 100vh;
+  background-color: $bg-main;
+  color: white;
+  overflow: hidden; // Prevent page-level scrolling [cite: 31]
+}
+
+.center-content {
+  background: radial-gradient(circle at top, rgba($accent, 0.05) 0%, $bg-main 70%); // Subtle brand glow
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; // Center the expression tool vertically
+  padding: 40px;
+  overflow-y: auto;
 
-  padding-top: 40px;
+  video {
+    width: 480px; // Slightly larger for professional focus
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+  }
+
+  h2 {
+    margin-top: 24px;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  button {
+    margin-top: 16px;
+    padding: 12px 24px;
+    border-radius: 50px; // Rounded "pill" style for a modern look [cite: 45]
+    background: $accent;
+    font-size: 16px;
+    box-shadow: 0 4px 15px rgba($accent, 0.3);
+    
+    &:hover {
+      background: $accent, 10%;
+      transform: translateY(-2px);
+    }
+  }
+}
+  padding: 40px;
+  overflow-y: auto;
 }
 
-.expression-section {
-  width: 100%;
-  max-width: 900px;
+.playlist-panel {
+  border-left: 1px solid #1f232b;
+}
+
+.player {
+  grid-column: 1 / span 3;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.center-content video {
+  width: 420px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+.center-content h2 {
+  margin-top: 14px;
+  font-size: 28px;
+}
+
+.center-content button {
+  margin-top: 8px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #F97316;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.center-content button:hover {
+  transform: scale(1.05);
 }

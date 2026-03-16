@@ -1,0 +1,32 @@
+ $bg-main: #0F1115;
+$bg-card: #1A1D24;
+$bg-input: #232730;
+$accent: #F97316;
+$text-main: #F3F4F6;
+$text-muted: #9CA3AF;
+
+.sidebar {
+  background-color: #000; 
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px 24px;
+  grid-row: 1 / 2; // Keep it above the player for a cleaner look
+
+  h2 {
+    color: $accent;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 40px;
+  }
+
+  nav p {
+    color: $text-muted; 
+    font-weight: 600;
+    margin: 20px 0;
+    transition: 0.3s;
+    
+    &:hover {
+      color: white;
+      transform: translateX(5px); // Smooth slide effect
+    }
+  }
+}

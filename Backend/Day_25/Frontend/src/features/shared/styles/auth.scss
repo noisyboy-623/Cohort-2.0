@@ -92,7 +92,7 @@ $text-muted: #9ca3af;
           border-color 0.2s ease;
 
         &:hover {
-          color: lighten($accent, 8%);
+          color: $accent, 8%;
           text-decoration: underline;
         }
       }

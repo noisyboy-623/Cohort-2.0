@@ -1,19 +1,21 @@
-import React, { useContext, useRef, useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { SongContext } from "../song.context";
-import { 
-  FaPlay, 
-  FaPause, 
-  FaVolumeUp, 
-  FaVolumeMute, 
-  FaStepBackward, 
-  FaStepForward, 
-  FaRandom, 
-  FaRedoAlt 
+import {
+  FaPlay,
+  FaPause,
+  FaVolumeUp,
+  FaVolumeMute,
+  FaStepBackward,
+  FaStepForward,
+  FaRandom,
+  FaRedoAlt,
 } from "react-icons/fa";
 import "./player.scss";
 
 const Player = () => {
-  const { song } = useContext(SongContext);
+  const { playlist, currentIndex, setCurrentIndex } = useContext(SongContext);
+  const song = playlist[currentIndex];
   const audioRef = useRef(null);
 
   const [playing, setPlaying] = useState(false);
@@ -22,6 +24,18 @@ const Player = () => {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [speed, setSpeed] = useState(1);
+  const [shuffle, setShuffle] = useState(false);
+  const [repeat, setRepeat] = useState(false);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+      setPlaying(true);
+    }
+  }, [song]);
 
   // Format time in MM:SS
   const formatTime = (time) => {
@@ -71,6 +85,28 @@ const Player = () => {
     audioRef.current.playbackRate = s;
   };
 
+  const nextSong = () => {
+    if (shuffle) {
+      const randomIndex = Math.floor(Math.random() * playlist.length);
+      setCurrentIndex(randomIndex);
+    } else {
+      setCurrentIndex((prev) => (prev === playlist.length - 1 ? 0 : prev + 1));
+    }
+  };
+
+  const handleSongEnd = () => {
+    if (repeat) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    } else {
+      nextSong();
+    }
+  };
+
+  const prevSong = () => {
+    setCurrentIndex((prev) => (prev === 0 ? playlist.length - 1 : prev - 1));
+  };
+
   if (!song) return null; // Hide player if no song is selected
 
   return (
@@ -80,7 +116,7 @@ const Player = () => {
         src={song.url}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={() => setPlaying(false)}
+        onEnded={handleSongEnd}
       />
 
       {/* LEFT - Song Info */}
@@ -95,15 +131,30 @@ const Player = () => {
       {/* CENTER - Controls & Progress */}
       <div className="player-center">
         <div className="controls">
-          <button className="icon-btn secondary"><FaRandom /></button>
-          <button className="icon-btn"><FaStepBackward /></button>
-          
+          <button
+            className={`icon-btn secondary ${shuffle ? "active" : ""}`}
+            onClick={() => setShuffle(!shuffle)}
+          >
+            <FaRandom />
+          </button>
+
+          <button className="icon-btn" onClick={prevSong}>
+            <FaStepBackward />
+          </button>
+
           <button className="play-btn" onClick={togglePlay}>
             {playing ? <FaPause /> : <FaPlay style={{ marginLeft: "3px" }} />}
           </button>
-          
-          <button className="icon-btn"><FaStepForward /></button>
-          <button className="icon-btn secondary"><FaRedoAlt /></button>
+
+          <button className="icon-btn" onClick={nextSong}>
+            <FaStepForward />
+          </button>
+          <button
+            className={`icon-btn secondary ${repeat ? "active" : ""}`}
+            onClick={() => setRepeat(!repeat)}
+          >
+            <FaRedoAlt />
+          </button>
         </div>
 
         <div className="progress-container">
@@ -115,8 +166,8 @@ const Player = () => {
             value={progress}
             onChange={seekSong}
             className="progress-bar"
-            style={{ 
-              background: `linear-gradient(to right, #F97316 ${progress}%, #4B5563 ${progress}%)` 
+            style={{
+              background: `linear-gradient(to right, #F97316 ${progress}%, #4B5563 ${progress}%)`,
             }}
           />
           <span className="time">{formatTime(duration)}</span>
@@ -126,7 +177,11 @@ const Player = () => {
       {/* RIGHT - Volume & Speed */}
       <div className="player-right">
         <div className="volume-control">
-          {volume > 0 ? <FaVolumeUp className="icon-muted" /> : <FaVolumeMute className="icon-muted" />}
+          {volume > 0 ? (
+            <FaVolumeUp className="icon-muted" />
+          ) : (
+            <FaVolumeMute className="icon-muted" />
+          )}
           <input
             type="range"
             min="0"
@@ -135,8 +190,8 @@ const Player = () => {
             value={volume}
             onChange={changeVolume}
             className="volume-bar"
-            style={{ 
-              background: `linear-gradient(to right, #F97316 ${volume * 100}%, #4B5563 ${volume * 100}%)` 
+            style={{
+              background: `linear-gradient(to right, #F97316 ${volume * 100}%, #4B5563 ${volume * 100}%)`,
             }}
           />
         </div>

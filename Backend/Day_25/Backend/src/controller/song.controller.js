@@ -4,9 +4,8 @@ const storageService = require("../services/storage.service");
 
 async function uploadSong(req, res) {
   const songBuffer = req.file.buffer;
-  const {mood} = req.body
+  const { mood } = req.body;
   const tags = id3.read(songBuffer);
-  
 
   const [songFile, posterFile] = await Promise.all([
     storageService.uploadFile({
@@ -18,33 +17,34 @@ async function uploadSong(req, res) {
       buffer: tags.image.imageBuffer,
       filename: tags.title + ".jpeg",
       folder: "/cohort-2/moodify/posters",
-    })
+    }),
   ]);
 
   const song = await songModel.create({
     url: songFile.url,
     posterURL: posterFile.url,
     title: tags.title,
-    mood
+    mood,
   });
 
   res.status(201).json({
-    message:"Song uploaded successfully",
-    song
-  })
+    message: "Song uploaded successfully",
+    song,
+  });
 }
 
 async function getSong(req, res) {
-  const {mood} = req.query
+  const { mood } = req.query;
 
-  const song = await songModel.findOne({
-    mood
-  })
+  const songs = await songModel.aggregate([
+    { $match: { mood } },
+    { $sample: { size: 50 } } // adjust size to how many songs you want
+  ]);
 
   res.status(200).json({
-    message:"Song fetched successfully.",
-    song
-  })
+    message: "Song fetched successfully.",
+    playlist: songs,
+  });
 }
 
 module.exports = { uploadSong, getSong };

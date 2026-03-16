@@ -2,7 +2,7 @@ import { FaceLandmarker, FilesetResolver } from "@mediapipe/tasks-vision";
 
 export const init = async ({ landmarkerRef, videoRef, streamRef }) => {
   const vision = await FilesetResolver.forVisionTasks(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm",
+    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
   );
 
   landmarkerRef.current = await FaceLandmarker.createFromOptions(vision, {
@@ -18,16 +18,18 @@ export const init = async ({ landmarkerRef, videoRef, streamRef }) => {
   streamRef.current = await navigator.mediaDevices.getUserMedia({
     video: true,
   });
+
   videoRef.current.srcObject = streamRef.current;
+
   await videoRef.current.play();
 };
 
 export const detect = ({ landmarkerRef, videoRef, setExpression }) => {
-  if (!landmarkerRef.current || !videoRef.current) return;
+  if (!landmarkerRef.current || !videoRef.current) return "neutral";
 
   const results = landmarkerRef.current.detectForVideo(
     videoRef.current,
-    performance.now(),
+    performance.now()
   );
 
   if (results.faceBlendshapes?.length > 0) {
@@ -43,13 +45,11 @@ export const detect = ({ landmarkerRef, videoRef, setExpression }) => {
     const frownLeft = getScore("mouthFrownLeft");
     const frownRight = getScore("mouthFrownRight");
 
-    console.log(getScore("mouthFrownLeft"));
-
-    let currentExpression = "Neutral";
+    let currentExpression = "neutral";
 
     if (smileLeft > 0.5 && smileRight > 0.5) {
       currentExpression = "happy";
-    } else if (jawOpen > 0.2 && browUp > 0.2) {
+    } else if (jawOpen > 0.3 && browUp > 0.3) {
       currentExpression = "surprised";
     } else if (frownLeft > 0.0001 && frownRight > 0.0001) {
       currentExpression = "sad";
@@ -57,6 +57,8 @@ export const detect = ({ landmarkerRef, videoRef, setExpression }) => {
 
     setExpression(currentExpression);
 
-    return currentExpression
+    return currentExpression;
   }
+
+  return "neutral";
 };
