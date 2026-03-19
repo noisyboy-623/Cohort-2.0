@@ -19,6 +19,26 @@ const songSchema = new mongoose.Schema({
             values:["sad", "happy", "surprised"],
             message: "Enum this is"
         }
+    },
+    artist:{
+        type: String,
+        default: "Unknown Artist"
+    },
+    album:{
+        type: String,
+        default: "Unknown Album"
+    },
+    year:{
+        type: Number,
+        default: null
+    },
+    composer:{
+        type: String,
+        default: "Unknown Composer"
+    },
+    lyrics:{
+        type: String,
+        default: ""
     }
 
 }) 

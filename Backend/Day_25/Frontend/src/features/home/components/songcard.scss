@@ -1,0 +1,86 @@
+@use "../../shared/styles/global.scss" as *;
+
+.song-card-panel {
+  padding: 16px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto; // ✅ MAIN SCROLL HERE
+  min-height: 0;
+
+  background: --bg-panel;
+  border-radius: $radius-lg;
+
+  /* Smooth scrollbar */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .song-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    img {
+      width: 100%;
+      // aspect-ratio: 1;
+      height: 270px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+      font-size: 1rem;
+      color: --text-main;
+      margin: 0;
+      white-space: nowrap; // keep text on one line
+      overflow: hidden; // hide overflow
+      text-overflow: ellipsis;
+    }
+
+    .artist {
+      color: --text-muted;
+      font-size: 14px;
+      white-space: nowrap; // keep text on one line
+      overflow: hidden; // hide overflow
+      text-overflow: ellipsis;
+    }
+
+    .song-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+
+      div {
+        span {
+          font-size: 10px;
+          color: --text-dim;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        p {
+          margin: 4px 0 0;
+          font-size: 14px;
+          color: --text-main;
+        }
+
+        .mood {
+          color: --accent;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .empty-card {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: --text-dim;
+  }
+}

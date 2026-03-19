@@ -1,4 +1,4 @@
-import { getSong } from "../service/song.api";
+import { getSong, uploadSong } from "../service/song.api";
 import { useContext } from "react";
 import { SongContext } from "../song.context";
 
@@ -22,5 +22,11 @@ export const useSong = () => {
     setLoading(false);
   }
 
-  return { loading, playlist, currentIndex, setCurrentIndex, handleGetSong };
+  const handleUploadSong = async (songFile, mood) => {
+    setLoading(true);
+    await uploadSong({ songFile, mood });
+    setLoading(false);
+  };
+
+  return { loading, playlist, currentIndex, setCurrentIndex, handleGetSong, handleUploadSong };
 };

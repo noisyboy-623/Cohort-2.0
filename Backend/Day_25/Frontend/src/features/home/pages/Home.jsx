@@ -2,34 +2,38 @@ import React from "react";
 import FaceExpression from "../../Expression/components/FaceExpression";
 import Player from "../components/Player";
 import Playlist from "../components/Playlist";
-import Sidebar from "../components/Sidebar";
+import SongCard from "../components/SongCard";
+import Navbar from "../components/Navbar";
 import "./home.scss";
 import { useSong } from "../hook/useSong";
+
 
 const Home = () => {
   const { handleGetSong } = useSong();
 
   return (
-    <div className="app-layout">
+    <div className="home-wrapper">
+      <Navbar />
+      <main className="app-layout">
+        
+        <aside className="detection-sidebar">
+          <FaceExpression 
+            onClick={(expression) => handleGetSong({ mood: expression })} 
+          />
+        </aside>
 
-      {/* LEFT SIDEBAR */}
-      <Sidebar />
+        <section className="playlist-container">
+          <Playlist />
+        </section>
 
-      {/* CENTER CONTENT */}
-      <div className="center-content">
-        <FaceExpression
-          onClick={(expression) => handleGetSong({ mood: expression })}
-        />
-      </div>
+          <aside className="song-card-wrapper">
+  <SongCard />
+</aside>
+       
+        <Player />
 
-      {/* RIGHT PLAYLIST */}
-      <Playlist />
-
-      {/* PLAYER */}
-      <Player />
-
+      </main>
     </div>
   );
 };
-
 export default Home;

@@ -5,11 +5,10 @@ import "./playlist.scss";
 const Playlist = () => {
   const { playlist, currentIndex, setCurrentIndex } =
     useContext(SongContext);
-
   return (
     <div className="playlist-panel">
 
-      <h3>Mood Playlist</h3>
+      <h3>  Playlist</h3>
 
       {playlist.map((song, index) => (
         <div
@@ -23,7 +22,7 @@ const Playlist = () => {
 
           <div>
             <p className="title">{song.title}</p>
-            <span className="mood">{song.mood}</span>
+            <span className="artist">{song.artist}</span>
           </div>
         </div>
       ))}

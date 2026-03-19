@@ -1,111 +1,135 @@
-.app-layout {
-  display: grid;
-  grid-template-columns: 230px 1fr 340px;
-  grid-template-rows: 1fr 90px;
-  height: 100vh;
-  background: linear-gradient(180deg,#0F1115,#090B0F);
-  color: white;
-}
-
-.sidebar {
-  grid-row: 1 / span 2;
-}
-
-.center-content {// Use your established variables for consistency 
-$bg-main: #0F1115;
-$bg-card: #1A1D24;
-$accent: #F97316;
-$text-muted: #9CA3AF;
-
-.app-layout {
-  display: grid;
-  grid-template-columns: 240px 1fr 320px;
-  grid-template-rows: 1fr 90px;
-  height: 100vh;
-  background-color: $bg-main;
-  color: white;
-  overflow: hidden; // Prevent page-level scrolling [cite: 31]
-}
-
-.center-content {
-  background: radial-gradient(circle at top, rgba($accent, 0.05) 0%, $bg-main 70%); // Subtle brand glow
+@use "../../shared/styles/global.scss" as *;
+.home-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center; // Center the expression tool vertically
-  padding: 40px;
-  overflow-y: auto;
+  height: 100vh; 
+  overflow: hidden; 
+}
 
-  video {
-    width: 480px; // Slightly larger for professional focus
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease;
+.app-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  grid-template-rows: 1fr 100px; 
+  flex: 1; 
+  gap: 16px;
+  padding: 16px;
+  min-height: 0; 
+  background: radial-gradient(circle at 50% 0%, rgba($accent, 0.05), $bg-deep);
+
+  .app-layout > * {
+  min-width: 0; 
+}
+
+  .detection-sidebar, .playlist-container{
+    grid-row: 1; 
+    height: 100%; 
+    min-height: 0; 
+    display: flex;
+    flex-direction: column;
+    background: $bg-panel;
+    border-radius: $radius-lg;
+    overflow: hidden; 
+    width: 280px;
+  flex-shrink: 0;
   }
 
-  h2 {
-    margin-top: 24px;
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-  }
-
-  button {
-    margin-top: 16px;
-    padding: 12px 24px;
-    border-radius: 50px; // Rounded "pill" style for a modern look [cite: 45]
-    background: $accent;
-    font-size: 16px;
-    box-shadow: 0 4px 15px rgba($accent, 0.3);
+  .playlist-container {
     
-    &:hover {
-      background: $accent, 10%;
-      transform: translateY(-2px);
+    width: 100%;
+  min-width: 0;
+    .playlist-panel {
+      flex: 1;
+      overflow-y: auto; 
     }
   }
 }
-  padding: 40px;
-  overflow-y: auto;
-}
 
-.playlist-panel {
-  border-left: 1px solid #1f232b;
-}
-
-.player {
+.player-container { 
   grid-column: 1 / span 3;
+  grid-row: 2; 
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .center-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+
+  .tag {
+    background: $accent;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 0 0 12px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 }
 
-.center-content video {
-  width: 420px;
-  border-radius: 14px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+.playlist-panel {
+  grid-column: 1;
+  grid-row: 1;
 }
 
-.center-content h2 {
-  margin-top: 14px;
-  font-size: 28px;
+.center-content {
+  grid-column: 2;
+  background: $bg-panel;
+  border-radius: $radius-lg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  .tag {
+    background: $accent;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 0 0 12px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .video-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+
+    video {
+      width: 85%;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+}
+.song-card-panel {
+  grid-column: 3;
+  grid-row: 1;
 }
 
-.center-content button {
-  margin-top: 8px;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  background: #F97316;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.2s;
-}
 
-.center-content button:hover {
-  transform: scale(1.05);
+.song-card-wrapper {
+  grid-column: 3;
+  grid-row: 1;
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background-color: $bg-panel;
+  border-radius: $radius-lg;
 }

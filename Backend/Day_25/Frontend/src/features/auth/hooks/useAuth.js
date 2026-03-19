@@ -36,7 +36,9 @@ export const useAuth = () => {
     }
 
     useEffect(() => {
-        handleGetMe()
+        if (!user) {
+        handleGetMe();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 

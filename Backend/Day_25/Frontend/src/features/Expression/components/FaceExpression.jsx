@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
 import { detect, init } from "../utils/utils";
+import { useNavigate } from "react-router";
+import "./faceExpression.scss";
 
 export default function FaceExpression({ onClick = () => {} }) {
+  const navigate = useNavigate();
   const videoRef = useRef(null);
   const landmarkerRef = useRef(null);
   const streamRef = useRef(null);
@@ -10,23 +13,13 @@ export default function FaceExpression({ onClick = () => {} }) {
   const [expression, setExpression] = useState("");
   const [detecting, setDetecting] = useState(false);
 
-  // CAMERA LIFECYCLE
   useEffect(() => {
     if (!detecting) return;
-
     async function startCamera() {
       await init({ landmarkerRef, videoRef, streamRef });
     }
-
     startCamera();
-
-    return () => {
-      if (videoRef.current?.srcObject) {
-        videoRef.current.srcObject
-          .getTracks()
-          .forEach((track) => track.stop());
-      }
-    };
+    return () => stopCamera();
   }, [detecting]);
 
   const stopCamera = () => {
@@ -41,15 +34,7 @@ export default function FaceExpression({ onClick = () => {} }) {
       setDetecting(true);
       return;
     }
-
-    const exp = detect({
-      landmarkerRef,
-      videoRef,
-      setExpression,
-    });
-
-    console.log(exp);
-
+    const exp = detect({ landmarkerRef, videoRef, setExpression });
     setDetecting(false);
     stopCamera();
     onClick(exp);
@@ -63,56 +48,40 @@ export default function FaceExpression({ onClick = () => {} }) {
   };
 
   return (
-    <div style={{ textAlign: "center", position: "relative" }}>
-      {/* CAMERA */}
-      {detecting && (
-        <video
-          ref={videoRef}
-          style={{
-            width: "400px",
-            borderRadius: "12px",
-          }}
-          playsInline
-        />
-      )}
+    <div className="face-expression-container">
+      {/* 1. MEDIA BOX (Constant size to prevent jumping) */}
+      <div className="media-viewport">
+        {detecting ? (
+          <video ref={videoRef} playsInline autoPlay muted className="camera-feed" />
+        ) : (
+          <div className="placeholder-box">
+            {expression ? (
+              <div className="result-display">
+                <span className="emoji">{emojiMap[expression]}</span>
+                <p>Mood Detected :</p>
+                <span className="text">{expression}</span>
+              </div>
+            ) : (
+              <div className="idle-state">
+                <div className="scan-icon">📸</div>
+                <p>Ready to detect mood</p>
+              </div>
+            )}
+          </div>
+        )}
+        
+        {detecting && <div className="scanning-line" />}
+      </div>
 
-      {/* MOOD OVERLAY */}
-      {!detecting && expression && (
-        <div
-          style={{
-            width: "400px",
-            height: "250px",
-            background: "#111",
-            color: "#fff",
-            borderRadius: "12px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "28px",
-            fontWeight: "600",
-            margin: "auto",
-          }}
-        >
-          {emojiMap[expression]} {expression}
-        </div>
-      )}
-
-      <br />
-
-      <button
-        onClick={handleClick}
-        style={{
-          padding: "10px 20px",
-          borderRadius: "8px",
-          border: "none",
-          background: "#F97316",
-          color: "white",
-          fontWeight: "600",
-          cursor: "pointer",
-        }}
-      >
-        {detecting ? "Detect Expression" : "Start Detection"}
-      </button>
+      {/* 2. ACTIONS */}
+      <div className="action-row">
+        <button onClick={handleClick} className="detect-btn">
+          {detecting ? "Capture Mood" : "Start Detection"}
+        </button>
+        <button onClick={() => navigate("/upload-song")} className="upload-btn">
+          Upload Song
+        </button>
+      </div>
     </div>
   );
 }

@@ -20,11 +20,19 @@ async function uploadSong(req, res) {
     }),
   ]);
 
+  const rawYear = tags.year
+  const year = rawYear ? new Date(rawYear).getFullYear() : null;
+
   const song = await songModel.create({
     url: songFile.url,
     posterURL: posterFile.url,
     title: tags.title,
     mood,
+    artist: tags.artist,
+    album: tags.album,
+    year,
+    composer: tags.composer,
+    lyrics: tags.unsynchronisedLyrics ? tags.unsynchronisedLyrics.text : "",
   });
 
   res.status(201).json({

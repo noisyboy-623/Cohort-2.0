@@ -1,0 +1,144 @@
+// _variables.scss (Enhanced)
+$bg-main: #0F1115;
+$bg-card: #1A1D24;
+$bg-input: #232730;
+$accent: #F97316;
+$text-main: #F3F4F6;
+$text-muted: #9CA3AF;
+$border-color: #3f3f46;
+$accent-hover: #b90a35;
+
+// uploadSong.scss
+.upload-song-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: $bg-main;
+  font-family: 'Inter', sans-serif;
+
+  .form-container {
+    background: $bg-card;
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid $border-color;
+    width: 100%;
+    max-width: 420px;
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      h1 {
+        font-size: 1.8rem;
+        color: $text-main;
+        margin-bottom: 0.5rem;
+      }
+      p {
+        color: $text-muted;
+        font-size: 0.9rem;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .upload-section {
+        .song-upload-label {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+          border: 2px dashed $border-color;
+          border-radius: 12px;
+          cursor: pointer;
+          color: $text-main;
+          transition: all 0.2s ease;
+          text-align: center;
+          gap: 10px;
+          max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+          
+
+          &:hover {
+            border-color: $accent;
+            background: rgba($accent, 0.05);
+          }
+
+          .upload-icon {
+            font-size: 2rem;
+            color: $accent;
+          }
+        }
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        
+        label {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: $text-muted;
+          margin-left: 4px;
+        }
+
+        .mood-input {
+          padding: 0.8rem 1rem;
+          border: 1px solid $border-color;
+          border-radius: 8px;
+          background: $bg-input;
+          color: $text-main;
+          outline: none;
+          transition: border-color 0.2s;
+
+          &:focus {
+            border-color: $accent;
+          }
+        }
+      }
+
+      .primary-button {
+        background-color: $accent;
+        color: white;
+        padding: 1rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s, background 0.2s;
+
+        &:hover {
+          background-color: $accent-hover;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+  }
+
+  // Loading State Styling
+  .loading-container {
+    text-align: center;
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba($accent, 0.1);
+      border-top: 4px solid $accent;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      animation: spin 1s linear infinite;
+    }
+    h1 { color: $text-main; font-size: 1.2rem; }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
