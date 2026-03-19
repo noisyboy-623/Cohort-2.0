@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { SongContext } from "../song.context";
-import "./songCard.scss";
+import "./songcard.scss";
 
 const SongCard = () => {
   const { playlist, currentIndex } = useContext(SongContext);
