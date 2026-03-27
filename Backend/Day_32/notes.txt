@@ -1,0 +1,3 @@
+Backend Day_32, Perplexity Day-1 : Initialized the perplexity project, created basic folder structure and insatalling required pacakges, setup the server, created secure login and register routes.
+
+Backend Day_32, Perplexity Day-2 : Implemented Email verification feature for registering the user
