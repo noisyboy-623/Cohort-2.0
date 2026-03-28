@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema(
       required: [true, 'Please provide message content'],
       trim: true,
       minlength: [1, 'Message cannot be empty'],
-      maxlength: [5000, 'Message cannot exceed 5000 characters']
+      // maxlength: [5000, 'Message cannot exceed 5000 characters']
     },
     role: {
       type: String,
