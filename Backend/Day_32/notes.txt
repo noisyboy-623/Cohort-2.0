@@ -1,3 +1,5 @@
 Backend Day_32, Perplexity Day-1 : Initialized the perplexity project, created basic folder structure and insatalling required pacakges, setup the server, created secure login and register routes.
 
 Backend Day_32, Perplexity Day-2 : Implemented Email verification feature for registering the user
+
+Backend Day_32, Perplexity Day-3 : Integrated the frontend with the backend to support user authentication (registration and login). Implemented protected routes to control access based on authentication state and followed a four-layer architecture in React for better organization and separation of concerns. Integrated Socket.io for real-time communication and implemented chat functionality.
