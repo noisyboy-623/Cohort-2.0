@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { register } from '../service/auth.api'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -26,17 +27,20 @@ const Register = () => {
     setIsLoading(true)
 
     try {
-      // TODO: Add API call here
-      console.log('Register attempt:', formData)
-      // Example: const response = await registerUser(formData)
-      setSuccess('Account created successfully! Redirecting...')
-      setFormData({ email: '', username: '', password: '' })
+      const response = await register(formData)
+      if (response.success) {
+        setSuccess('Account created successfully! Check your email to verify.')
+        setFormData({ email: '', username: '', password: '' })
+      } else {
+        setError(response.message || 'Failed to register')
+      }
     } catch (err) {
       setError(err.message || 'Failed to register')
     } finally {
       setIsLoading(false)
     }
   }
+
 
   const colors = {
     bgPrimary: '#1a1a1a',
