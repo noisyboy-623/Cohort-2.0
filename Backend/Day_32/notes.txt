@@ -7,3 +7,5 @@ Backend Day_32, Perplexity Day-3 : Integrated the frontend with the backend to s
 Backend Day_32, Perplexity Day-4 : Implemented chat functionality with Mistral AI (title generation) and Gemini (response generation); built robust chat routes (sendMessage, getChats, getMessages, deleteChat) with comprehensive error handling.
 
 Backend Day_32, Perplexity Day-5 : Implemented the frontend chat interface, allowing users to view their chat history and send messages. Integrated the frontend with the backend chat routes to enable real-time communication and display of chat messages.
+
+Backend Day_32, Perplexity Day-6 : Used Tavily for internet search functionality, allowing users to search for information online. Integrated Tavily API into the backend and created routes to handle search requests and return results to the frontend.
