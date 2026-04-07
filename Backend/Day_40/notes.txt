@@ -1,0 +1,6 @@
+npm i -D typescript tsx : install typescript and tsx as dev dependencies  
+
+-D flag is used to save the packages as dev dependencies in the package.json file. This means that these packages are only needed during development and will not be included in the production build of the application.
+
+npx tsc --init : This command initializes a new TypeScript project by creating a tsconfig.json file in the current directory. The tsconfig.json file is used to configure the TypeScript compiler options and specify which files should be included in the compilation process.
+
