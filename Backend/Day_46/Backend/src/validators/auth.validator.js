@@ -1,7 +1,7 @@
-import { body, validatorResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 
 function validateRequest(req, res, next) {
-  const errors = validatorResult(req);
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -31,3 +31,13 @@ export const validateRegisterUser = [
     .withMessage("isSeller must be a boolean value"),
   validateRequest,
 ];
+
+export const validateLoginUser = [
+  body("email")
+    .isEmail()
+    .withMessage("Invalid email format"),
+  body("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long"),
+    validateRequest
+]
