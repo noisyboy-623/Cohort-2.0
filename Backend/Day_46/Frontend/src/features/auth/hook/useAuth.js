@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { setUser, setLoading, setError } from "../state/auth.slice"
-import { login, register } from "../service/auth.api"
+import { login, register } from "../services/auth.api"
 import { useDispatch } from "react-redux"
 
 export const useAuth = () => {
