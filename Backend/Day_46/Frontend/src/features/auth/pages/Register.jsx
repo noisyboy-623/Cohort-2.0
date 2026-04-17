@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hook/useAuth';
 import { useNavigate } from 'react-router';
+import ContinueWithGoogle from '../components/ContinueWithGoogle';
 
 const Register = () => {
   const { handleRegister } = useAuth();
@@ -53,7 +54,7 @@ const Register = () => {
 
       <main className="min-h-screen flex flex-col md:flex-row pt-16 md:pt-0">
         {/* Left Side: Editorial Image (Visible on Desktop) */}
-        <section className="hidden md:flex md:w-1/2 h-screen sticky top-0 overflow-hidden bg-[#eeeeee] relative">
+        <section className="hidden md:flex md:w-1/2 h-screen sticky top-0 overflow-hidden bg-[#eeeeee] ">
           <div className="absolute inset-0 z-10 bg-black/10"></div>
           <img 
             alt="High fashion editorial photography" 
@@ -149,7 +150,7 @@ const Register = () => {
                     className="sr-only peer" 
                     type="checkbox" 
                   />
-                  <div className="w-11 h-5 bg-[#e8e8e8] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border-0 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-black transition-colors duration-300"></div>
+                  <div className="w-11 h-5 bg-[#e8e8e8] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border-0 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-black transition-colors duration-300"></div>
                 </label>
               </div>
 
@@ -170,7 +171,7 @@ const Register = () => {
                 </div>
 
                 {/* Continue with Google */}
-                <button
+                {/* <button
                   type="button"
                   onClick={() => window.location.href = "/api/auth/google"}
                   className="w-full flex items-center justify-center gap-3 bg-transparent border-[0.5px] border-[#777777] text-black py-4 text-[12px] font-['Manrope'] font-bold uppercase tracking-[0.2em] hover:bg-[#f2f2f2] hover:border-black transition-colors duration-300"
@@ -182,7 +183,8 @@ const Register = () => {
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.16 7.07l3.68 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                   </svg>
                   Continue with Google
-                </button>
+                </button> */}
+                <ContinueWithGoogle />
               </div>
             </form>
 
@@ -193,7 +195,7 @@ const Register = () => {
                 <a className="text-black font-bold border-b border-black ml-2 hover:opacity-70 transition-opacity" href="/login">Log in</a>
               </p>
               <div className="w-full h-[0.5px] bg-[#e8e8e8]"></div>
-              <p className="text-[10px] font-['Manrope'] text-[#474747] tracking-[0.1em] text-center uppercase leading-relaxed">
+              <p className="text-[10px] font-['Manrope'] text-[#474747] tracking-widest text-center uppercase leading-relaxed">
                 By signing up, you agree to our <a className="underline" href="#terms">Terms</a> and <a className="underline" href="#privacy">Privacy Policy</a>.
               </p>
             </div>
@@ -202,7 +204,7 @@ const Register = () => {
       </main>
 
       {/* Footer Segment */}
-      <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#f3f3f3] dark:bg-[#121212] font-['Manrope'] text-[10px] tracking-[0.1em] text-black dark:text-white mb-20 md:mb-0">
+      <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#f3f3f3] dark:bg-[#121212] font-['Manrope'] text-[10px] tracking-widest text-black dark:text-white mb-20 md:mb-0">
         <div className="font-['Newsreader'] font-bold text-lg">SNITCH</div>
         <div className="flex gap-8">
           <a className="text-neutral-500 hover:text-black transition-colors" href="#privacy">PRIVACY</a>
