@@ -1,33 +1,41 @@
-import React, { useState } from 'react';
-import { useAuth } from '../hook/useAuth';
-import { useNavigate } from 'react-router';
-import ContinueWithGoogle from '../components/ContinueWithGoogle';
+import React, { useState } from "react";
+import { useAuth } from "../hook/useAuth";
+import { useNavigate } from "react-router";
+import ContinueWithGoogle from "../components/ContinueWithGoogle";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 
 const Login = () => {
   const { handleLogin } = useAuth();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await handleLogin({
+      const user = await handleLogin({
         email: formData.email,
-        password: formData.password
+        password: formData.password,
       });
-      navigate("/");
+      console.log(user.role)
+      if (user.role === "buyer") {
+        console.log("buyer")
+        navigate("/");
+      } else if (user.role === "seller") {
+        navigate("/seller/dashboard");
+      }
     } catch (error) {
       console.error("Login failed", error);
     }
@@ -35,29 +43,22 @@ const Login = () => {
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-      {/* TopAppBar */}
-      <nav className="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
-        <div className="flex items-center gap-4">
-          <span className="material-symbols-outlined text-black" data-icon="menu">menu</span>
-        </div>
-        <div className="text-2xl font-bold tracking-[-0.02em] text-black font-['Newsreader'] uppercase">SNITCH</div>
-        <div className="flex items-center gap-4">
-          <span className="material-symbols-outlined text-black" data-icon="shopping_bag">shopping_bag</span>
-        </div>
-      </nav>
+      <Navbar />
 
-      <main className="flex flex-col md:flex-row md:items-stretch pt-18 min-h-screen">
+      {/* <main className="flex flex-col md:flex-row md:items-stretch pt-18 min-h-screen"> */}
+      <main className="min-h-screen flex flex-col md:flex-row pt-16 md:pt-0">  
         {/* Left Side: Editorial Image */}
         <section className="w-full h-[40vh] md:h-auto md:w-1/2 relative overflow-hidden bg-[#eeeeee]">
           <div className="absolute inset-0 z-10 bg-black/20 md:bg-black/10"></div>
-          <img 
-            alt="High fashion editorial photography" 
-            className="absolute inset-0 w-full h-full object-cover object-top grayscale brightness-90 contrast-125" 
-            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1920&auto=format&fit=crop" 
+          <img
+            alt="High fashion editorial photography"
+            className="absolute inset-0 w-full h-full object-cover object-top top-7 grayscale brightness-90 contrast-125"
+            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1920&auto=format&fit=crop"
           />
-          <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-20 max-w-md">
+          <div className="absolute bottom-25 left-12 z-20 max-w-md">
             <h2 className="text-white text-4xl md:text-6xl font-['Newsreader'] leading-tight tracking-tighter transition-all duration-700 translate-y-0 opacity-100">
-              Welcome <br className="hidden md:block" />Back.
+              Welcome <br className="hidden md:block" />
+              Back.
             </h2>
             <p className="text-white/80 font-['Manrope'] text-[10px] md:text-sm tracking-widest uppercase mt-2 md:mt-6">
               Continue Your Curation Journey
@@ -69,21 +70,27 @@ const Login = () => {
         <section className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-24 py-12 md:py-20 bg-[#f9f9f9]">
           <div className="max-w-md w-full mx-auto">
             <header className="mb-12">
-              <h1 className="text-4xl md:text-5xl font-['Newsreader'] tracking-tight mb-2">Log In</h1>
-              <p className="text-[#474747] font-['Manrope'] text-sm uppercase tracking-wider">Access your Snitch account</p>
+              <h1 className="text-4xl md:text-5xl font-['Newsreader'] tracking-tight mb-2">
+                Log In
+              </h1>
+              <p className="text-[#474747] font-['Manrope'] text-sm uppercase tracking-wider">
+                Access your Snitch account
+              </p>
             </header>
 
             <form onSubmit={handleSubmit} className="space-y-10">
               {/* Email */}
               <div className="group relative">
-                <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747] mb-1">Email Address</label>
-                <input 
+                <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747] mb-1">
+                  Email Address
+                </label>
+                <input
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:border-black focus:ring-0 px-0 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300" 
-                  placeholder="CURATOR@SNITCH.CO" 
-                  type="email" 
+                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:border-black focus:ring-0 px-0 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300"
+                  placeholder="CURATOR@SNITCH.CO"
+                  type="email"
                   required
                 />
               </div>
@@ -91,24 +98,31 @@ const Login = () => {
               {/* Password */}
               <div className="group relative">
                 <div className="flex justify-between items-center mb-1">
-                  <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747]">Password</label>
-                  <a href="#forgot" className="text-[10px] font-['Manrope'] text-[#474747] hover:text-black transition-colors">FORGOT PASSWORD?</a>
+                  <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747]">
+                    Password
+                  </label>
+                  <a
+                    href="#forgot"
+                    className="text-[10px] font-['Manrope'] text-[#474747] hover:text-black transition-colors"
+                  >
+                    FORGOT PASSWORD?
+                  </a>
                 </div>
-                <input 
+                <input
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:border-black focus:ring-0 px-0 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300" 
-                  placeholder="••••••••••••" 
-                  type="password" 
+                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:border-black focus:ring-0 px-0 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300"
+                  placeholder="••••••••••••"
+                  type="password"
                   required
                 />
               </div>
 
               {/* Submit Button */}
               <div className="pt-4 space-y-4">
-                <button 
-                  className="w-full bg-black text-[#e2e2e2] py-5 text-[12px] font-['Manrope'] font-bold uppercase tracking-[0.2em] hover:bg-[#5e5e5e] transition-colors duration-300" 
+                <button
+                  className="w-full bg-black text-[#e2e2e2] py-5 text-[12px] font-['Manrope'] font-bold uppercase tracking-[0.2em] hover:bg-[#5e5e5e] transition-colors duration-300"
                   type="submit"
                 >
                   Log In
@@ -117,7 +131,9 @@ const Login = () => {
                 {/* Divider */}
                 <div className="flex items-center gap-4 py-2">
                   <div className="flex-1 h-[0.5px] bg-[#e8e8e8]"></div>
-                  <span className="text-[10px] font-['Manrope'] tracking-[0.2em] text-[#474747] uppercase">or</span>
+                  <span className="text-[10px] font-['Manrope'] tracking-[0.2em] text-[#474747] uppercase">
+                    or
+                  </span>
                   <div className="flex-1 h-[0.5px] bg-[#e8e8e8]"></div>
                 </div>
 
@@ -142,40 +158,20 @@ const Login = () => {
             {/* Footer Links in Form */}
             <div className="mt-10 flex flex-col items-center gap-6">
               <p className="text-[10px] font-['Manrope'] text-[#474747] tracking-widest uppercase">
-                Don't have an account? 
-                <a className="text-black font-bold border-b border-black ml-2 hover:opacity-70 transition-opacity" href="/register">Sign up</a>
+                Don't have an account?
+                <a
+                  className="text-black font-bold border-b border-black ml-2 hover:opacity-70 transition-opacity"
+                  href="/register"
+                >
+                  Sign up
+                </a>
               </p>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer Segment */}
-      <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#f3f3f3] dark:bg-[#121212] font-['Manrope'] text-[10px] tracking-widest text-black dark:text-white mb-20 md:mb-0">
-        <div className="font-['Newsreader'] font-bold text-lg">SNITCH</div>
-        <div className="flex gap-8">
-          <a className="text-neutral-500 hover:text-black transition-colors" href="#privacy">PRIVACY</a>
-          <a className="text-neutral-500 hover:text-black transition-colors" href="#terms">TERMS</a>
-          <a className="text-neutral-500 hover:text-black transition-colors" href="#contact">CONTACT</a>
-        </div>
-        <div className="text-neutral-500 uppercase">© 2024 SNITCH. ALL RIGHTS RESERVED.</div>
-      </footer>
-
-      {/* BottomNavBar (Mobile Only) */}
-      <nav className="md:hidden fixed bottom-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl flex justify-around items-center px-4 pb-6 border-t border-gray-200">
-        <a className="flex flex-col items-center justify-center text-neutral-400 pt-2" href="#home">
-          <span className="material-symbols-outlined" data-icon="home">home</span>
-        </a>
-        <a className="flex flex-col items-center justify-center text-neutral-400 pt-2" href="#search">
-          <span className="material-symbols-outlined" data-icon="search">search</span>
-        </a>
-        <a className="flex flex-col items-center justify-center text-neutral-400 pt-2" href="#favorite">
-          <span className="material-symbols-outlined" data-icon="favorite">favorite</span>
-        </a>
-        <a className="flex flex-col items-center justify-center text-black border-t-2 border-black pt-2" href="#person">
-          <span className="material-symbols-outlined" data-icon="person">person</span>
-        </a>
-      </nav>
+      <Footer />
     </div>
   );
 };

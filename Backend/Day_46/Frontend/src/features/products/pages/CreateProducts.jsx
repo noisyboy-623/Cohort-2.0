@@ -1,18 +1,20 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useProduct } from '../hook/useProduct';
 import { useNavigate } from 'react-router';
+import Navbar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
 
 const CreateProducts = () => {
   const { handleCreateProduct } = useProduct();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     priceAmount: '',
     priceCurrency: 'USD',
   });
-  const [ images, setImages ] = useState([]); 
+  const [ images, setImages ] = useState([]);
   const [ isDragging, setIsDragging ] = useState(false);
   const [ isSubmitting, setIsSubmitting ] = useState(false);
   const fileInputRef = useRef(null);
@@ -86,25 +88,17 @@ const CreateProducts = () => {
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-      {/* TopAppBar */}
-      <nav className="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl flex justify-between items-center px-6 py-4">
-        <div className="flex items-center gap-4">
-          <span className="material-symbols-outlined text-black" data-icon="menu">menu</span>
-        </div>
-        <div className="text-2xl font-bold tracking-[-0.02em] text-black font-['Newsreader'] uppercase">SNITCH</div>
-        <div className="flex items-center gap-4">
-          <span className="material-symbols-outlined text-black" data-icon="shopping_bag">shopping_bag</span>
-        </div>
-      </nav>
+
+      <Navbar />
 
       <main className="min-h-screen flex flex-col md:flex-row pt-16 md:pt-0">
         {/* Left Side: Editorial Image */}
         <section className="hidden md:flex md:w-1/2 h-screen sticky top-0 overflow-hidden bg-[#eeeeee]">
           <div className="absolute inset-0 z-10 bg-black/10"></div>
-          <img 
-            alt="High fashion runway setup" 
-            className="w-full h-full object-cover grayscale brightness-90 contrast-125" 
-            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop" 
+          <img
+            alt="High fashion runway setup"
+            className="w-full h-full object-cover grayscale brightness-90 contrast-125"
+            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop"
           />
           <div className="absolute bottom-12 left-12 z-20 max-w-md">
             <h2 className="text-white text-6xl font-['Newsreader'] leading-tight tracking-tighter transition-all duration-700 translate-y-0 opacity-100">
@@ -128,27 +122,27 @@ const CreateProducts = () => {
               {/* Title */}
               <div className="group relative">
                 <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747] mb-1">Product Title</label>
-                <input 
+                <input
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300" 
-                  placeholder="OBSIDIAN TRENCH COAT" 
-                  type="text" 
+                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300"
+                  placeholder="OBSIDIAN TRENCH COAT"
+                  type="text"
                   required
                 />
               </div>
 
-               {/* Description */}
+              {/* Description */}
               <div className="group relative">
                 <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747] mb-1">Description</label>
-                <textarea 
+                <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300 resize-none" 
-                  placeholder="Detail the materials, cut, and aesthetic." 
+                  className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300 resize-none"
+                  placeholder="Detail the materials, cut, and aesthetic."
                   required
                 />
               </div>
@@ -157,12 +151,12 @@ const CreateProducts = () => {
                 {/* Price Amount */}
                 <div className="group relative flex-1">
                   <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747] mb-1">Price Amount</label>
-                  <input 
+                  <input
                     name="priceAmount"
                     value={formData.priceAmount}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300" 
-                    placeholder="0.00" 
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] placeholder:text-[#e2e2e2] transition-all duration-300"
+                    placeholder="0.00"
                     type="number"
                     step="0.01"
                     min="0"
@@ -177,7 +171,7 @@ const CreateProducts = () => {
                     name="priceCurrency"
                     value={formData.priceCurrency}
                     onChange={handleChange}
-                    className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] appearance-none rounded-none transition-all duration-300 bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5z%22%20fill%3D%22%231a1c1c%22%2F%3E%3C%2Fsvg%3E')] bg-no-repeat bg-[position:calc(100%-8px)_center]"
+                    className="w-full bg-transparent border-t-0 border-x-0 border-b-[0.5px] border-[#777777] focus:outline-none focus:ring-0 focus:border-[#777777] px-2 py-2 text-[#1a1c1c] font-['Manrope'] appearance-none rounded-none transition-all duration-300"
                   >
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
@@ -192,26 +186,26 @@ const CreateProducts = () => {
               {/* Images */}
               <div className="group relative">
                 <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747] mb-2 font-bold">Gallery ({images.length}/7)</label>
-                <div 
+                <div
                   className={`flex flex-wrap gap-4 transition-all duration-300 p-6 min-h-[140px] items-center rounded-sm border-[1px] border-dashed ${isDragging ? 'border-black bg-[#eeeeee] scale-[1.02]' : 'border-[#c6c6c6] bg-transparent'}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                 >
                   <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
-                      {images.length === 0 && !isDragging && (
-                          <span className="text-[#a1a1a1] text-[10px] uppercase tracking-widest">Drag & Drop images here</span>
-                      )}
-                      {images.length === 0 && isDragging && (
-                          <span className="text-black text-[10px] uppercase tracking-widest font-bold">Drop to upload</span>
-                      )}
+                    {images.length === 0 && !isDragging && (
+                      <span className="text-[#a1a1a1] text-[10px] uppercase tracking-widest">Drag & Drop images here</span>
+                    )}
+                    {images.length === 0 && isDragging && (
+                      <span className="text-black text-[10px] uppercase tracking-widest font-bold">Drop to upload</span>
+                    )}
                   </div>
-                  
+
                   {images.map((img, idx) => (
                     <div key={idx} className="relative w-20 h-28 bg-[#eeeeee] z-10 shadow-sm border border-[#e2e2e2] group/image">
                       <img src={img.preview} alt="Preview" className="w-full h-full object-cover grayscale brightness-90 contrast-125 rounded-sm" />
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => removeImage(idx)}
                         className="absolute top-1 right-1 bg-white/80 w-5 h-5 flex items-center justify-center opacity-0 group-hover/image:opacity-100 transition-opacity rounded-full hover:bg-white z-20"
                       >
@@ -220,16 +214,16 @@ const CreateProducts = () => {
                     </div>
                   ))}
                   {images.length < 7 && (
-                    <div 
+                    <div
                       className="relative z-10 w-20 h-28 border-[0.5px] border-[#c6c6c6] hover:border-black transition-colors flex flex-col items-center justify-center cursor-pointer group/upload bg-white rounded-sm shadow-sm"
                       onClick={() => fileInputRef.current?.click()}
                     >
                       <span className="material-symbols-outlined text-[#777777] group-hover/upload:text-black transition-colors">add</span>
                       <span className="text-[8px] text-[#777777] group-hover/upload:text-black uppercase tracking-wider mt-2 transition-colors">Upload</span>
-                      <input 
+                      <input
                         ref={fileInputRef}
-                        type="file" 
-                        multiple 
+                        type="file"
+                        multiple
                         accept="image/*"
                         onChange={handleFileChange}
                         className="hidden"
@@ -241,8 +235,8 @@ const CreateProducts = () => {
 
               {/* Submit Button */}
               <div className="pt-8">
-                <button 
-                  className="w-full flex items-center justify-center bg-black text-[#e2e2e2] py-5 text-[12px] font-['Manrope'] font-bold uppercase tracking-[0.2em] hover:bg-[#5e5e5e] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed" 
+                <button
+                  className="w-full flex items-center justify-center bg-black text-[#e2e2e2] py-5 text-[12px] font-['Manrope'] font-bold uppercase tracking-[0.2em] hover:bg-[#5e5e5e] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   type="submit"
                   disabled={isSubmitting}
                 >
@@ -254,32 +248,7 @@ const CreateProducts = () => {
         </section>
       </main>
 
-      {/* Footer Segment */}
-      <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-center gap-4 bg-[#f3f3f3] dark:bg-[#121212] font-['Manrope'] text-[10px] tracking-widest text-black dark:text-white mb-20 md:mb-0">
-        <div className="font-['Newsreader'] font-bold text-lg">SNITCH</div>
-        <div className="flex gap-8">
-          <a className="text-neutral-500 hover:text-black transition-colors" href="#privacy">PRIVACY</a>
-          <a className="text-neutral-500 hover:text-black transition-colors" href="#terms">TERMS</a>
-          <a className="text-neutral-500 hover:text-black transition-colors" href="#contact">CONTACT</a>
-        </div>
-        <div className="text-neutral-500 uppercase">© 2024 SNITCH. ALL RIGHTS RESERVED.</div>
-      </footer>
-
-      {/* BottomNavBar (Mobile Only) */}
-      <nav className="md:hidden fixed bottom-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl flex justify-around items-center px-4 pb-6 border-t border-gray-200">
-        <a className="flex flex-col items-center justify-center text-neutral-400 pt-2" href="#home">
-          <span className="material-symbols-outlined" data-icon="home">home</span>
-        </a>
-        <a className="flex flex-col items-center justify-center text-neutral-400 pt-2" href="#search">
-          <span className="material-symbols-outlined" data-icon="search">search</span>
-        </a>
-        <a className="flex flex-col items-center justify-center text-neutral-400 pt-2" href="#favorite">
-          <span className="material-symbols-outlined" data-icon="favorite">favorite</span>
-        </a>
-        <a className="flex flex-col items-center justify-center text-black border-t-2 border-black pt-2" href="#person">
-          <span className="material-symbols-outlined" data-icon="person">person</span>
-        </a>
-      </nav>
+      <Footer />
     </div>
   );
 };
