@@ -1,5 +1,6 @@
 import { urlencoded } from "express";
 import mongoose from "mongoose";
+import priceSchema from "./price.schema.js";
 
 const productSchema = new mongoose.Schema(
   {
@@ -17,16 +18,8 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     price: {
-      amount: {
-        type: Number,
-        required: true,
-      },
-      currency: {
-        type: String,
-        enum: ["USD", "EUR", "GBP", "INR", "JPY", "CNY"],
-        default: "INR",
-        required: true,
-      },
+      type: priceSchema,
+      required: true,
     },
     images: [
       {
@@ -55,16 +48,7 @@ const productSchema = new mongoose.Schema(
           of: String,
         },
         price: {
-          amount: {
-            type: Number,
-            required: true,
-          },
-          currency: {
-            type: String,
-            enum: ["USD", "EUR", "GBP", "INR", "JPY", "CNY"],
-            default: "INR",
-            required: true,
-          },
+          type: priceSchema,
         },
       },
     ],

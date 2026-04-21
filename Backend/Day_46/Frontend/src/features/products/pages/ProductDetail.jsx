@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router'
 import { useProduct } from '../hook/useProduct'
+import { useCart } from '../../cart/hook/useCart'
 import Navbar from '../../../components/Navbar'
 import Footer from '../../../components/Footer'
 
@@ -64,6 +66,7 @@ const ProductDetail = () => {
 
     const [selectedVariant, setSelectedVariant] = useState(null)
     const [selectedAttributes, setSelectedAttributes] = useState({})
+    const { handleAddItem }  = useCart()
 
     async function fetchProductDetails() {
         setLoading(true)
@@ -193,12 +196,12 @@ const ProductDetail = () => {
 
                             {/* Thumbnail strip */}
                         {images.length > 1 && (
-                            <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:max-h-[480px] pb-2 md:pb-0 scrollbar-hide">
+                            <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:max-h-120 pb-2 md:pb-0 scrollbar-hide">
                                 {images.map((img, idx) => (
                                     <button
                                         key={img._id}
                                         onClick={() => setActiveImage(idx)}
-                                        className={`flex-shrink-0 w-14 h-16 md:w-16 md:h-20 overflow-hidden border-[1.5px] transition-all duration-200 ${
+                                        className={`shrink-0 w-14 h-16 md:w-16 md:h-20 overflow-hidden border-[1.5px] transition-all duration-200 ${
                                             activeImage === idx
                                                 ? 'border-black'
                                                 : 'border-transparent hover:border-[#c6c6c6]'
@@ -215,7 +218,7 @@ const ProductDetail = () => {
                         )}
 
                         {/* Main image */}
-                        <div className="flex-1 relative aspect-[2/3]  max-h-[520px] bg-[#eeeeee] overflow-hidden group">
+                        <div className="flex-1 relative aspect-2/3  max-h-130 bg-[#eeeeee] overflow-hidden group">
                             {images.length > 0 ? (
                                 <img
                                     key={activeImage}
@@ -270,7 +273,7 @@ const ProductDetail = () => {
                             <div className="mt-4 space-y-6">
                                 {Object.entries(availableAttributes).map(([attrKey, values]) => (
                                     <div key={attrKey}>
-                                        <h3 className="text-[10px] uppercase tracking-[0.25em] text-[#888888] mb-3 capitalize">{attrKey}</h3>
+                                        <h3 className="text-[10px] uppercase tracking-[0.25em] text-[#888888] mb-3">{attrKey}</h3>
                                         <div className="flex flex-wrap gap-2">
                                             {values.map(val => {
                                                 const isSelected = selectedAttributes[attrKey] === val;
@@ -278,7 +281,7 @@ const ProductDetail = () => {
                                                     <button
                                                         key={val}
                                                         onClick={() => handleAttributeSelect(attrKey, val)}
-                                                        className={`px-4 py-2 text-[11px] font-medium uppercase tracking-[0.1em] border transition-colors ${
+                                                        className={`px-4 py-2 text-[11px] font-medium uppercase tracking-widest border transition-colors ${
                                                             isSelected
                                                                 ? 'border-black bg-black text-white'
                                                                 : 'border-[#e2e2e2] bg-white text-[#474747] hover:border-black'
@@ -299,10 +302,21 @@ const ProductDetail = () => {
                     <div className="flex flex-col justify-start pt-2 lg:pt-6">
 
                         {/* Label / tag */}
-                        <div className="mb-6">
-                            <span className="text-[9px] uppercase tracking-[0.3em] text-[#888888] border border-[#c6c6c6] px-3 py-1.5">
-                                In Stock
+                        <div className="mb-4 flex flex-col gap-2">
+                            <span
+                                className={`text-[9px] uppercase tracking-[0.3em] px-3 py-1.5 w-max border ${
+                                    isOutOfStock
+                                        ? 'text-red-500 border-red-300 bg-red-50'
+                                        : 'text-[#888888] border-[#c6c6c6]'
+                                }`}
+                            >
+                                {isOutOfStock ? 'Out of Stock' : 'In Stock'}
                             </span>
+                            {!isOutOfStock && displayProduct.stock !== undefined && (
+                                <p className="text-[10px] uppercase tracking-[0.2em] text-[#888888]">
+                                    <span className="font-bold text-[#3a3a3a]">{displayProduct.stock}</span> units available
+                                </p>
+                            )}
                         </div>
 
                         {/* Title */}
@@ -358,9 +372,12 @@ const ProductDetail = () => {
                                 className={`flex-1 flex items-center justify-center gap-2 border-2 border-black bg-white text-black px-8 py-4 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${
                                     isOutOfStock ? 'opacity-50 cursor-not-allowed bg-[#f0f0f0] border-[#c6c6c6] text-[#888888]' : 'hover:bg-black hover:text-white'
                                 }`}
+                                onClick={() => {
+                                    handleAddItem({ productId: product._id, variantId: selectedVariant._id})
+                                }}
                             >
                                 <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
-                                {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+                                {isOutOfStock ? 'Out of Stock' : 'Add to Bag'}
                             </button>
 
                             {/* Buy Now */}

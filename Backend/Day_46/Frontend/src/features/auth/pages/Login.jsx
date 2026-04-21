@@ -31,7 +31,6 @@ const Login = () => {
       });
       console.log(user.role)
       if (user.role === "buyer") {
-        console.log("buyer")
         navigate("/");
       } else if (user.role === "seller") {
         navigate("/seller/dashboard");
