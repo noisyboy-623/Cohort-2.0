@@ -23,6 +23,7 @@ export const addToCartController = async (req, res) => {
   const cart =
     (await cartModel.findOne({ user: req.user._id })) ||
     (await cartModel.create({ user: req.user._id }));
+
   const isProductAlreadyInCart = await cart.items.some(
     (item) => item.product._id == productId && item.variant._id == variantId,
   );
@@ -31,6 +32,7 @@ export const addToCartController = async (req, res) => {
     const quantityInCart = await cart.items.find(
       (item) => item.product._id == productId && item.variant._id == variantId,
     ).quantity;
+
     if (quantityInCart + quantity > stock) {
       return res.status(400).json({
         message: `Only ${stock} items left in stock. and you already have ${quantityInCart} items in your cart`,
@@ -69,30 +71,72 @@ export const addToCartController = async (req, res) => {
     product: productId,
     variant: variantId,
     quantity,
-    price: product.price
-  })
+    price: product.price,
+  });
 
-  await cart.save()
+  await cart.save();
 
   res.status(200).json({
     message: "Cart created successfully",
-    success: true
-  })
+    success: true,
+  });
 };
 
-export const getCart = async (req, res) => { 
-    const user = req.user
-    const cart = await cartModel.findOne({
-        user: user._id
-    }).populate("items.product")
+export const getCart = async (req, res) => {
+  const user = req.user;
+  let cart = await cartModel
+    .findOne({ user: user._id })
+    .populate("items.product");
 
-    if(!cart){
-        cart = await cartModel.create({ user: user._id })
-    }
+  if (!cart) {
+    cart = await cartModel.create({ user: user._id });
+  }
 
-    return res.status(200).json({
-        message: "Cart fetched successfully",
-        success: true,
-        cart
-    })
-}
+  return res.status(200).json({
+    message: "Cart fetched successfully",
+    success: true,
+    cart,
+  });
+};
+
+export const removeFromCart = async (req, res) => {
+  const { itemId } = req.params;
+  const cart = await cartModel
+    .findOneAndUpdate(
+      { user: req.user._id },
+      { $pull: { items: { _id: itemId } } },
+      { new: true },
+    )
+    .populate("items.product");
+
+  return res.status(200).json({
+    message: "Item removed from cart",
+    success: true,
+    cart,
+  });
+};
+
+export const updateCartQuantity = async (req, res) => {
+  const { itemId } = req.params;
+  const { quantity } = req.body;
+
+  if (!quantity || quantity < 1) {
+    return res
+      .status(400)
+      .json({ message: "Quantity must be at least 1", success: false });
+  }
+
+  const cart = await cartModel
+    .findOneAndUpdate(
+      { user: req.user._id, "items._id": itemId },
+      { $set: { "items.$.quantity": quantity } },
+      { new: true },
+    )
+    .populate("items.product");
+
+  return res.status(200).json({
+    message: "Quantity updated",
+    success: true,
+    cart,
+  });
+};

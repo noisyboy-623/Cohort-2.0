@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 const Navbar = () => {
+  const navigate = useNavigate()
   return (
     <>
       {/* Top Nav */}
@@ -12,8 +14,9 @@ const Navbar = () => {
           SNITCH
         </div>
         <div className="flex items-center gap-4">
-          <span className="material-symbols-outlined text-black cursor-pointer select-none">search</span>
-          <span className="material-symbols-outlined text-black cursor-pointer select-none">shopping_bag</span>
+          {/* <span className="material-symbols-outlined text-black cursor-pointer select-none">search</span> */}
+          {/* <span className="material-symbols-outlined text-black cursor-pointer select-none" onClick={() => navigate("/cart")}>shopping_bag</span> */}
+          <button className="material-symbols-outlined text-black cursor-pointer select-none" onClick={() => navigate("/cart")}>shopping_bag</button>
         </div>
       </nav>
 

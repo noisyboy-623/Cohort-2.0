@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import { useProduct } from '../hook/useProduct'
 import { useSelector } from 'react-redux'
@@ -43,7 +44,7 @@ const Dashboard = () => {
                         {sellerProducts.map(product => (
                             
                             <div onClick={() => {navigate(`/seller/product/${product._id}`)}} key={product._id} className="group cursor-pointer flex flex-col">
-                                <div className="relative w-full aspect-[3/4] bg-[#eeeeee] overflow-hidden mb-6">
+                                <div className="relative w-full aspect-3/4 bg-[#eeeeee] overflow-hidden mb-6">
                                     {product.images && product.images.length > 0 ? (
                                         <img
                                             src={product.images[0].url}

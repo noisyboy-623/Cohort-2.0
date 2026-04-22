@@ -1,9 +1,11 @@
 import axios from "axios";
 
-const authApiInstance = axios.create ({
-    baseURL: "/api/auth",
-    withCredentials: true
-})
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+const authApiInstance = axios.create({
+    baseURL: `${API_BASE_URL}/api/auth`,
+    withCredentials: true,
+});
 
 export async function register({email, name, password, contact, isSeller}) {
     const response = await authApiInstance.post("/register", {

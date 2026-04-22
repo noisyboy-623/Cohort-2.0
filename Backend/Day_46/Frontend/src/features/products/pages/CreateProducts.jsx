@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback } from 'react';
 import { useProduct } from '../hook/useProduct';
 import { useNavigate } from 'react-router';
@@ -187,7 +188,7 @@ const CreateProducts = () => {
               <div className="group relative">
                 <label className="block text-[10px] font-['Manrope'] uppercase tracking-[0.2em] text-[#474747] mb-2 font-bold">Gallery ({images.length}/7)</label>
                 <div
-                  className={`flex flex-wrap gap-4 transition-all duration-300 p-6 min-h-[140px] items-center rounded-sm border-[1px] border-dashed ${isDragging ? 'border-black bg-[#eeeeee] scale-[1.02]' : 'border-[#c6c6c6] bg-transparent'}`}
+                  className={`flex flex-wrap gap-4 transition-all duration-300 p-6 min-h-35 items-center rounded-sm border border-dashed ${isDragging ? 'border-black bg-[#eeeeee] scale-[1.02]' : 'border-[#c6c6c6] bg-transparent'}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}

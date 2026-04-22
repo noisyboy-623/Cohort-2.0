@@ -8,7 +8,7 @@ export default defineConfig({
   server:{
     proxy:{
       "/api":{
-        target:"http://localhost:3000",
+        target:["http://localhost:3000","https://snitch-b4yh.onrender.com"],
         changeOrigin: true,
         secure: false
       }

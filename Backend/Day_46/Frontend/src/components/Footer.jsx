@@ -9,7 +9,7 @@ const Footer = () => {
         <a className="text-neutral-400 hover:text-white transition-colors" href="#terms">TERMS</a>
         <a className="text-neutral-400 hover:text-white transition-colors" href="#contact">CONTACT</a>
       </div>
-      <div className="text-neutral-400 uppercase">© 2024 SNITCH. ALL RIGHTS RESERVED.</div>
+      <div className="text-neutral-400 uppercase">© 2026 SNITCH. ALL RIGHTS RESERVED.</div>
     </footer>
   )
 }

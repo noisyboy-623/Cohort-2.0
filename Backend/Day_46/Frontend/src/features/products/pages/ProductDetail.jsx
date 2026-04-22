@@ -86,6 +86,10 @@ const ProductDetail = () => {
 
     const variants = (product || MOCK_PRODUCT).variants || []
 
+    // ── Currency symbol map ───────────────────────────────────────────────────
+    const CURRENCY_SYMBOLS = { INR: '₹', USD: '$', EUR: '€', GBP: '£', JPY: '¥', CNY: '¥' }
+    const getSymbol = (currency) => CURRENCY_SYMBOLS[(currency || 'INR').toUpperCase()] || (currency || '₹')
+
     const availableAttributes = useMemo(() => {
         const attrs = {}
         variants.forEach(v => {
@@ -101,12 +105,8 @@ const ProductDetail = () => {
         return result
     }, [variants])
 
-    useEffect(() => {
-        if (variants.length > 0 && !selectedVariant) {
-            setSelectedVariant(variants[0])
-            setSelectedAttributes(variants[0].attributes || {})
-        }
-    }, [variants])
+    // No auto-selection of variants[0] — base product price/stock/images show by default.
+    // Variant is only selected when the user explicitly clicks an attribute button.
 
     const handleAttributeSelect = (key, value) => {
         const newAttributes = { ...selectedAttributes, [key]: value }
@@ -161,15 +161,15 @@ const ProductDetail = () => {
     const baseProduct = product || MOCK_PRODUCT
     const displayProduct = selectedVariant ? {
         ...baseProduct,
-        ...selectedVariant,
+        // Only override price/images/stock — never overwrite title/_id/description with variant fields
         price: selectedVariant.price?.amount ? selectedVariant.price : baseProduct.price,
         images: selectedVariant.images?.length > 0 ? selectedVariant.images : baseProduct.images,
-        stock: selectedVariant.stock !== undefined ? selectedVariant.stock : baseProduct.stock
+        stock: selectedVariant.stock !== undefined ? selectedVariant.stock : baseProduct.stock,
     } : baseProduct
 
     const images = displayProduct.images || []
     const isOutOfStock = displayProduct.stock === 0
-
+    console.log(displayProduct.price?.amount)
     return (
         <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
             <Navbar />
@@ -327,11 +327,11 @@ const ProductDetail = () => {
                         {/* Price */}
                         <div className="flex items-baseline gap-2 mb-8">
                             <span className="text-3xl font-bold tracking-tight">
-                                {displayProduct.price?.currency === 'INR' ? '₹' : displayProduct.price?.currency}
-                                {displayProduct.price?.amount?.toLocaleString('en-IN')}
+                                {getSymbol(displayProduct.price?.currency)}
+                                {(displayProduct.price?.amount ?? displayProduct.price)?.toLocaleString('en-IN')}
                             </span>
                             <span className="text-xs uppercase tracking-[0.2em] text-[#888888]">
-                                {displayProduct.price?.currency}
+                                {(displayProduct.price?.currency || 'INR').toUpperCase()}
                             </span>
                         </div>
 
