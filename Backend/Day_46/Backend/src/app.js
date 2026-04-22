@@ -12,7 +12,7 @@ import { config } from "../src/config/config.js";
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173","https://snitch-frontend-74sw.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }))
