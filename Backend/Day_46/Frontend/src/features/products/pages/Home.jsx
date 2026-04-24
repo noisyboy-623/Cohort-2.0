@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useProduct } from '../hook/useProduct'
-import Navbar from '../../../components/Navbar'
-import Footer from '../../../components/Footer'
 import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
 
 const Home = () => {
   const products = useSelector(state => state.product.allProducts)
@@ -20,16 +19,24 @@ const Home = () => {
   }, [])
 
   const filteredProducts = (products || []).filter(p =>
-    p.title?.toLowerCase().includes(search.toLowerCase()) ||
-    p.description?.toLowerCase().includes(search.toLowerCase())
+    p.title?.toLowerCase().includes(search.toLowerCase()) 
+    // ||
+    // p.description?.toLowerCase().includes(search.toLowerCase())
   )
 
   const toggleWishlist = (id, e) => {
     e.preventDefault()
     e.stopPropagation()
-    setWishlist(prev =>
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    )
+    setWishlist(prev => {
+      const isRemoving = prev.includes(id);
+      if (isRemoving) {
+        toast.info("Removed from wishlist", { theme: "dark", autoClose: 2000 });
+        return prev.filter(i => i !== id);
+      } else {
+        toast.success("Saved to wishlist", { theme: "dark", autoClose: 2000 });
+        return [...prev, id];
+      }
+    })
   }
 
   const handleImageCycle = (productId, images, direction) => {
@@ -49,8 +56,6 @@ const Home = () => {
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-
-      <Navbar />
 
       {/* ── Hero ── */}
       <section className="relative pt-16 overflow-hidden h-[55vh] md:h-[70vh] flex items-end bg-[#1a1c1c]">
@@ -215,9 +220,6 @@ const Home = () => {
                     <p className="text-[10px] text-[#777777] uppercase tracking-widest line-clamp-1">
                       {product.description}
                     </p>
-                    <button className="mt-3 w-full py-3 border border-[#1a1c1c] text-[10px] font-['Manrope'] font-bold uppercase tracking-[0.2em] text-[#1a1c1c] hover:bg-[#1a1c1c] hover:text-[#f9f9f9] transition-all duration-300 opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0">
-                      Add to Bag
-                    </button>
                   </div>
                 </div>
               )
@@ -250,8 +252,6 @@ const Home = () => {
           ))}
         </div>
       </section>
-
-      <Footer />
     </div>
   )
 }

@@ -1,9 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback } from 'react';
 import { useProduct } from '../hook/useProduct';
 import { useNavigate } from 'react-router';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
+import { toast } from 'react-toastify';
 
 const CreateProducts = () => {
   const { handleCreateProduct } = useProduct();
@@ -77,11 +75,19 @@ const CreateProducts = () => {
       images.forEach(img => data.append('images', img.file));
 
       await handleCreateProduct(data);
-      alert("Product created successfully!");
+      toast.success("Product created successfully!", {
+        position: "bottom-center",
+        autoClose: 3000,
+        theme: "dark"
+      });
       navigate("/");
     } catch (error) {
       console.error("Failed to create product", error);
-      alert("Failed to create product.");
+      toast.error("Failed to create product. Please try again.", {
+        position: "bottom-center",
+        autoClose: 3000,
+        theme: "dark"
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -89,8 +95,6 @@ const CreateProducts = () => {
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-
-      <Navbar />
 
       <main className="min-h-screen flex flex-col md:flex-row pt-16 md:pt-0">
         {/* Left Side: Editorial Image */}
@@ -248,8 +252,6 @@ const CreateProducts = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 };

@@ -3,9 +3,8 @@ import React, { useEffect } from 'react'
 import { useProduct } from '../hook/useProduct'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router'
-import Navbar from '../../../components/Navbar'
-import Footer from '../../../components/Footer'
 import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
 
 const Dashboard = () => {
 
@@ -19,8 +18,6 @@ const Dashboard = () => {
 
     return (
         <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-
-            <Navbar />
 
             <main className="flex-1 flex flex-col pt-24 px-8 md:px-24 min-h-screen pb-20 md:pb-12">
                 <header className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -56,10 +53,36 @@ const Dashboard = () => {
                                     )}
 
                                     <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                                        <button className="w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center hover:bg-white text-black shadow-md transition-all">
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toast.info("Edit feature coming soon!", { theme: "dark" });
+                                            }}
+                                            className="w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center hover:bg-white text-black shadow-md transition-all"
+                                        >
                                             <span className="material-symbols-outlined text-[14px]">edit</span>
                                         </button>
-                                        <button className="w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center hover:bg-red-50 hover:text-red-600 text-black shadow-md transition-all">
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toast(
+                                                    ({ closeToast }) => (
+                                                        <div className="font-['Manrope']">
+                                                            <p className="mb-3 text-sm font-semibold">Are you sure you want to delete this product?</p>
+                                                            <div className="flex gap-2">
+                                                                <button onClick={() => {
+                                                                    toast.dismiss();
+                                                                    toast.error("Delete product feature coming soon!", { theme: "dark" });
+                                                                }} className="bg-red-600 text-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider hover:bg-red-700 transition-colors">Delete</button>
+                                                                <button onClick={closeToast} className="bg-gray-200 text-black px-3 py-1.5 text-xs font-bold uppercase tracking-wider hover:bg-gray-300 transition-colors">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    ),
+                                                    { autoClose: false, closeOnClick: false, theme: "light" }
+                                                );
+                                            }}
+                                            className="w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center hover:bg-red-50 hover:text-red-600 text-black shadow-md transition-all"
+                                        >
                                             <span className="material-symbols-outlined text-[14px]">delete</span>
                                         </button>
                                     </div>
@@ -84,8 +107,6 @@ const Dashboard = () => {
                     </div>
                 )}
             </main>
-
-            <Footer />
         </div>
     )
 }

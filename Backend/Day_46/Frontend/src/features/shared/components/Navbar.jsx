@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { useCart } from '../../cart/hook/useCart'
 
 const Navbar = () => {
   const navigate = useNavigate()
+  const { cartItems, handleGetCart } = useCart()
+  
+  useEffect(() => {
+    handleGetCart()
+  }, [])
+
+  const cartItemCount = cartItems?.length || 0
+
   return (
     <>
       {/* Top Nav */}
@@ -14,9 +23,17 @@ const Navbar = () => {
           SNITCH
         </div>
         <div className="flex items-center gap-4">
-          {/* <span className="material-symbols-outlined text-black cursor-pointer select-none">search</span> */}
-          {/* <span className="material-symbols-outlined text-black cursor-pointer select-none" onClick={() => navigate("/cart")}>shopping_bag</span> */}
-          <button className="material-symbols-outlined text-black cursor-pointer select-none" onClick={() => navigate("/cart")}>shopping_bag</button>
+          <button 
+            className="relative flex items-center justify-center cursor-pointer select-none" 
+            onClick={() => navigate("/cart")}
+          >
+            <span className="material-symbols-outlined text-black">shopping_bag</span>
+            {cartItemCount > 0 && (
+              <span className="absolute -top-1 -right-1.5 flex h-[14px] w-[14px] items-center justify-center rounded-full bg-black text-[9px] font-bold text-white">
+                {cartItemCount}
+              </span>
+            )}
+          </button>
         </div>
       </nav>
 

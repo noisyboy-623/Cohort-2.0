@@ -126,3 +126,37 @@ export const addProductVariant = async (req, res) => {
     product
   })
 }
+
+export const deleteProductVariant = async (req, res) => {
+  const { productId, variantId } = req.params;
+
+  const product = await productModel.findOne({
+    _id: productId,
+    seller: req.user._id
+  });
+
+  if (!product) {
+    return res.status(404).json({
+      message: "Product not found",
+      success: false
+    });
+  }
+
+  const variantIndex = product.variants.findIndex(v => v._id.toString() === variantId);
+
+  if (variantIndex === -1) {
+    return res.status(404).json({
+      message: "Variant not found",
+      success: false
+    });
+  }
+
+  product.variants.splice(variantIndex, 1);
+  await product.save();
+
+  res.status(200).json({
+    message: "Product variant deleted successfully",
+    success: true,
+    product
+  });
+};

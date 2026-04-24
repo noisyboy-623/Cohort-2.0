@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../hook/useAuth";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 import ContinueWithGoogle from "../components/ContinueWithGoogle";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import Footer from "../../shared/components/Footer";
 
 const Register = () => {
   const { handleRegister } = useAuth();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (user) {
+      if (user.role === "buyer") navigate("/");
+      else navigate("/seller/dashboard");
+    }
+  }, [user, navigate]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -47,7 +55,6 @@ const Register = () => {
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-      <Navbar />
 
       <main className="min-h-screen flex flex-col md:flex-row pt-16 md:pt-0">
         {/* Left Side: Editorial Image (Visible on Desktop) */}

@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { useParams } from 'react-router'
 import { useProduct } from '../hook/useProduct'
-import Navbar from '../../../components/Navbar'
-import Footer from '../../../components/Footer'
+import { toast } from 'react-toastify'
 
 const SellerProductDetails = () => {
-    const { handleGetProductById, handleAddProductVariant } = useProduct()
+    const { handleGetProductById, handleAddProductVariant, handleDeleteProductVariant } = useProduct()
     const { productId } = useParams()
     
     const [product, setProduct] = useState(null)
@@ -120,14 +119,13 @@ const SellerProductDetails = () => {
         })
     }
 
-    // --- Create Variant Submission ---
-    const handleCreateVariant = (e) => {
+    const handleCreateVariant = async (e) => {
         e.preventDefault()
         
         // Validation: At least one attribute is required
         const validAttributes = newVariant.attributes.filter(attr => attr.key.trim() && attr.value.trim())
         if (validAttributes.length === 0) {
-            alert("At least one valid attribute (e.g. Size, Color) is required.")
+            toast.error("At least one valid attribute (e.g. Size, Color) is required.", { theme: "dark" })
             return
         }
 
@@ -154,9 +152,14 @@ const SellerProductDetails = () => {
             }
         }
 
-        setVariantsList([...variantsList, variantObj])
-        // console.log("Created Variant Object:", variantObj)
-        handleAddProductVariant(productId, variantObj)
+        try {
+            await handleAddProductVariant(productId, variantObj)
+            setVariantsList([...variantsList, variantObj])
+            toast.success("Variant created successfully!", { theme: "dark" })
+        } catch (err) {
+            console.error(err)
+            toast.error("Failed to create variant.", { theme: "dark" })
+        }
         
         // Reset form
         setNewVariant({
@@ -175,23 +178,42 @@ const SellerProductDetails = () => {
         ))
     }
 
-    const handleDeleteVariant = (variantId) => {
-        if (window.confirm("Are you sure you want to delete this variant?")) {
+    const confirmDelete = async (variantId, toastId) => {
+        toast.dismiss(toastId)
+        try {
+            await handleDeleteProductVariant(productId, variantId)
             setVariantsList(variantsList.filter(v => v._id !== variantId))
+            toast.success("Variant deleted successfully", { theme: "dark" })
+        } catch (err) {
+            console.error("Failed to delete variant", err)
+            toast.error("Failed to delete variant. Please try again.", { theme: "dark" })
         }
+    }
+
+    const handleDeleteVariant = (variantId) => {
+        toast(
+            ({ closeToast, toastProps }) => (
+                <div className="font-['Manrope']">
+                    <p className="mb-3 text-sm font-semibold">Are you sure you want to delete this variant?</p>
+                    <div className="flex gap-2">
+                        <button onClick={() => confirmDelete(variantId, toastProps.toastId)} className="bg-red-600 text-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider hover:bg-red-700 transition-colors">Delete</button>
+                        <button onClick={closeToast} className="bg-gray-200 text-black px-3 py-1.5 text-xs font-bold uppercase tracking-wider hover:bg-gray-300 transition-colors">Cancel</button>
+                    </div>
+                </div>
+            ),
+            { autoClose: false, closeOnClick: false, theme: "light" }
+        )
     }
 
     if (loading) {
         return (
             <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-                <Navbar />
                 <main className="flex-1 flex items-center justify-center pt-24">
                     <div className="flex flex-col items-center gap-4">
                         <div className="w-10 h-10 border-2 border-black border-t-transparent rounded-full animate-spin" />
                         <p className="text-xs uppercase tracking-[0.25em] text-[#777777]">Loading piece…</p>
                     </div>
                 </main>
-                <Footer />
             </div>
         )
     }
@@ -199,11 +221,9 @@ const SellerProductDetails = () => {
     if (!product) {
         return (
             <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-                <Navbar />
                 <main className="flex-1 flex items-center justify-center pt-24">
                     <p className="text-sm uppercase tracking-[0.25em] text-[#777777]">Product not found.</p>
                 </main>
-                <Footer />
             </div>
         )
     }
@@ -212,7 +232,6 @@ const SellerProductDetails = () => {
 
     return (
         <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-            <Navbar />
 
             {/* Breadcrumb */}
             <div className="pt-24 px-6 md:px-16 lg:px-24">
@@ -573,8 +592,6 @@ const SellerProductDetails = () => {
 
                 </div>
             </main>
-
-            <Footer />
         </div>
     )
 }

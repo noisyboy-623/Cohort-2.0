@@ -1,11 +1,15 @@
 import productModel from "../models/product.model.js";
 
-export const stockOfVariant = async(productId, variantId) => {
+export const stockOfVariant = async (productId, variantId) => {
+    if (!variantId || variantId === "base") return Infinity;
+    
     const product = await productModel.findOne({
         _id: productId,
         "variants._id": variantId
-    })
+    });
 
-    const stock = product.variants.find(variant => variant._id.toString() == variantId).stock
-    return stock
+    if (!product) return 0;
+
+    const variant = product.variants.find(variant => variant._id.toString() == variantId);
+    return variant ? variant.stock : 0;
 } 

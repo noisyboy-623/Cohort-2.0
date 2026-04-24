@@ -3,12 +3,13 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router'
 import { useProduct } from '../hook/useProduct'
 import { useCart } from '../../cart/hook/useCart'
-import Navbar from '../../../components/Navbar'
-import Footer from '../../../components/Footer'
+import { toast } from 'react-toastify'
+import Navbar from '../../shared/components/Navbar'
+import Footer from '../../shared/components/Footer'
 
 // ── Static mock matching the provided data shape ──────────────────────────────
 const MOCK_PRODUCT = {
-    price: { amount: 2000, currency: 'INR' },
+    price: { amount: 1234, currency: 'INR' },
     _id: '69e3b666e0c90c0490fa4afc',
     title: 'Cloth',
     description:
@@ -26,7 +27,7 @@ const MOCK_PRODUCT = {
     variants: [
         {
             _id: "69e60d1591b3a9f160df4983",
-            price: { amount: 2000, currency: "INR" },
+            price: { amount: 1234, currency: "INR" },
             images: [],
             stock: 300,
             attributes: { abc: "def" }
@@ -42,7 +43,7 @@ const MOCK_PRODUCT = {
         },
         {
             _id: "69e6143991b3a9f160df4a9c",
-            price: { amount: 2000, currency: "INR" },
+            price: { amount: 1234, currency: "INR" },
             images: [],
             stock: 0,
             attributes: {
@@ -372,8 +373,14 @@ const ProductDetail = () => {
                                 className={`flex-1 flex items-center justify-center gap-2 border-2 border-black bg-white text-black px-8 py-4 text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${
                                     isOutOfStock ? 'opacity-50 cursor-not-allowed bg-[#f0f0f0] border-[#c6c6c6] text-[#888888]' : 'hover:bg-black hover:text-white'
                                 }`}
-                                onClick={() => {
-                                    handleAddItem({ productId: product._id, variantId: selectedVariant._id})
+                                onClick={async () => {
+                                    try {
+                                        const variantIdToSend = selectedVariant?._id || "base";
+                                        await handleAddItem({ productId: product._id, variantId: variantIdToSend });
+                                        toast.success("Item added to bag", { theme: "dark" });
+                                    } catch (err) {
+                                        toast.error("Choose an attribute first", { theme: "dark" });
+                                    }
                                 }}
                             >
                                 <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
@@ -394,7 +401,10 @@ const ProductDetail = () => {
                         </div>
 
                         {/* Wishlist nudge */}
-                        <button className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#888888] hover:text-black transition-colors w-max">
+                        <button 
+                            className="mt-4 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-[#888888] hover:text-black transition-colors w-max"
+                            onClick={() => toast.info("Item added to wishlist", { theme: "dark" })}
+                        >
                             <span className="material-symbols-outlined text-[14px]">favorite</span>
                             Save to Wishlist
                         </button>
@@ -418,8 +428,6 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </main>
-
-            <Footer />
         </div>
     )
 }

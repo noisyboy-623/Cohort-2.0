@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../hook/useAuth";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 import ContinueWithGoogle from "../components/ContinueWithGoogle";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import Footer from "../../shared/components/Footer";
 
 const Login = () => {
   const { handleLogin } = useAuth();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (user) {
+      if (user.role === "buyer") navigate("/");
+      else navigate("/seller/dashboard");
+    }
+  }, [user, navigate]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -42,7 +50,6 @@ const Login = () => {
 
   return (
     <div className="bg-[#f9f9f9] text-[#1a1c1c] antialiased min-h-screen flex flex-col font-['Manrope']">
-      <Navbar />
 
       {/* <main className="flex flex-col md:flex-row md:items-stretch pt-18 min-h-screen"> */}
       <main className="min-h-screen flex flex-col md:flex-row pt-16 md:pt-0">  
@@ -51,7 +58,7 @@ const Login = () => {
           <div className="absolute inset-0 z-10 bg-black/20 md:bg-black/10"></div>
           <img
             alt="High fashion editorial photography"
-            className="absolute inset-0 w-full h-full object-cover object-top top-7 grayscale brightness-90 contrast-125"
+            className="absolute inset-0 w-full h-full object-cover object-top  grayscale brightness-90 contrast-125"
             src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1920&auto=format&fit=crop"
           />
           <div className="absolute bottom-25 left-12 z-20 max-w-md">

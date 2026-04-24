@@ -6,10 +6,12 @@ export const addToCartController = async (req, res) => {
   const { productId, variantId } = req.params;
   const { quantity = 1 } = req.body;
 
-  const product = await productModel.findOne({
-    _id: productId,
-    "variants._id": variantId,
-  });
+  // 1. Find product
+  let query = { _id: productId };
+  if (variantId && variantId !== "base") {
+    query["variants._id"] = variantId;
+  }
+  const product = await productModel.findOne(query);
 
   if (!product) {
     return res.status(404).json({
@@ -18,66 +20,67 @@ export const addToCartController = async (req, res) => {
     });
   }
 
+  // 2. Check stock
   const stock = await stockOfVariant(productId, variantId);
 
-  const cart =
-    (await cartModel.findOne({ user: req.user._id })) ||
-    (await cartModel.create({ user: req.user._id }));
+  // 3. Get/Create cart
+  let cart = await cartModel.findOne({ user: req.user._id });
+  if (!cart) {
+    cart = await cartModel.create({ user: req.user._id });
+  }
 
-  const isProductAlreadyInCart = await cart.items.some(
-    (item) => item.product._id == productId && item.variant._id == variantId,
+  const targetVariantId = variantId === "base" ? undefined : variantId;
+
+  // 4. Calculate Correct Price
+  let itemPrice = {
+    amount: product.price.amount,
+    currency: product.price.currency
+  };
+  
+  if (targetVariantId) {
+    const selectedVariant = product.variants.id(targetVariantId);
+    if (selectedVariant && selectedVariant.price && selectedVariant.price.amount) {
+      itemPrice.amount = selectedVariant.price.amount;
+      if (selectedVariant.price.currency) {
+        itemPrice.currency = selectedVariant.price.currency;
+      }
+    }
+  }
+
+  // 5. Check if already in cart
+  const existingItem = cart.items.find(item => 
+    String(item.product) === String(productId) && 
+    String(item.variant || "") === String(targetVariantId || "")
   );
 
-  if (isProductAlreadyInCart) {
-    const quantityInCart = await cart.items.find(
-      (item) => item.product._id == productId && item.variant._id == variantId,
-    ).quantity;
-
-    if (quantityInCart + quantity > stock) {
+  if (existingItem) {
+    if (existingItem.quantity + quantity > stock) {
       return res.status(400).json({
-        message: `Only ${stock} items left in stock. and you already have ${quantityInCart} items in your cart`,
+        message: `Only ${stock} items left in stock. and you already have ${existingItem.quantity} items in your cart`,
         success: false,
       });
     }
-
-    await cartModel.findOneAndUpdate(
-      {
-        user: req.user._id,
-        "items.product": productId,
-        "items.variant": variantId,
-      },
-      {
-        $inc: { "items.$.quantity": quantity },
-      },
-      {
-        new: true,
-      },
-    );
-
-    return res.status(200).json({
-      message: "Cart updated successfully",
-      success: true,
+    existingItem.quantity += quantity;
+    existingItem.price = itemPrice; // Update price to ensure consistency
+  } else {
+    if (quantity > stock) {
+      return res.status(400).json({
+        message: `Only ${stock} items left in stock`,
+        success: false,
+      });
+    }
+    cart.items.push({
+      product: productId,
+      variant: targetVariantId,
+      quantity,
+      price: itemPrice,
     });
   }
-
-  if (quantity > stock) {
-    return res.status(400).json({
-      message: `Only ${stock} items left in stock`,
-      success: false,
-    });
-  }
-
-  cart.items.push({
-    product: productId,
-    variant: variantId,
-    quantity,
-    price: product.price,
-  });
 
   await cart.save();
 
-  res.status(200).json({
-    message: "Cart created successfully",
+  return res.status(200).json({
+    message: existingItem ? "Cart updated successfully" : "Item added to cart",
     success: true,
   });
 };
