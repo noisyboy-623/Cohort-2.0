@@ -90,7 +90,8 @@ export default function App() {
   }, [messages]);
 
   const handleSubmit = async (problem) => {
-    const response = await axios.post('http://localhost:3000/invoke', { problem });
+    // const response = await axios.post('http://localhost:3000/invoke', { problem });
+    const response = await axios.post('https://cohort-2-0-kix1.onrender.com/invoke', { problem });
     const data = response.data;
     console.log(data)
     setIsLoading(true);
