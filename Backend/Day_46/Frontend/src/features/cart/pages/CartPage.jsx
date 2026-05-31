@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useCart } from "../hook/useCart";
+import { useRazorpay } from "react-razorpay";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function getVariantForItem(item) {
   if (!item?.product?.variants) return null;
-  return item.product.variants.find((v) => v._id === item.variant) || null;
+  if (Array.isArray(item.product.variants)) {
+    return item.product.variants.find((v) => v._id === item.variant) || null;
+  }
+  return item.product.variants;
 }
 
 function getDisplayImage(item) {
@@ -35,14 +39,18 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true);
   const [removingId, setRemovingId] = useState(null);
   const [updatingId, setUpdatingId] = useState(null);
+  const { Razorpay } = useRazorpay();
 
   useEffect(() => {
     handleGetCart().finally(() => setLoading(false));
   }, []);
 
   const items = cartItems || [];
+  
   const subtotal = items.reduce((sum, item) => {
-    return sum + (item.price?.amount || 0) * (item.quantity || 1);
+    const vPrice = getVariantPrice(item);
+    const priceAmount = vPrice?.amount || item.price?.amount || 0;
+    return sum + priceAmount * (item.quantity || 1);
   }, 0);
   const CURRENCY_SYMBOLS = {
     INR: "₹",
@@ -74,6 +82,32 @@ const CartPage = () => {
     } finally {
       setUpdatingId(null);
     }
+  };
+
+  const handlePayment = () => {
+    const options = {
+      key: "rzp_test_Sk2h5Y0EiB5HYB",
+      amount: 50000, // Amount in paise
+      currency: "INR",
+      name: "Test Company",
+      description: "Test Transaction",
+      order_id: "order_9A33XWu170gUtm", // Generate order_id on server
+      handler: (response) => {
+        console.log(response);
+        alert("Payment Successful!");
+      },
+      prefill: {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        contact: "9999999999",
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
+
+    const razorpayInstance = new Razorpay(options);
+    razorpayInstance.open();
   };
 
   // ── Loading skeleton ───────────────────────────────────────────────────────
@@ -164,8 +198,8 @@ const CartPage = () => {
                 const isRemoving = removingId === item._id;
                 const isUpdating = updatingId === item._id;
                 const variantPrice = getVariantPrice(item);
-                const itemTotal =
-                  (variantPrice?.amount || 0) * (item.quantity || 1);
+                const priceAmount = variantPrice?.amount || item.price?.amount || 0;
+                const itemTotal = priceAmount * (item.quantity || 1);
                 const saving = item.price?.amount - variantPrice?.amount;
 
                 return (
@@ -369,6 +403,7 @@ const CartPage = () => {
                 <button
                   id="checkout-btn"
                   className="w-full flex items-center justify-center gap-2 bg-black text-white py-4 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-[#333333] transition-colors duration-300"
+                  onClick={handlePayment}
                 >
                   <span className="material-symbols-outlined text-[16px]">
                     bolt

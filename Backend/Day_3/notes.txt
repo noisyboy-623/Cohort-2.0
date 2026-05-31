@@ -1,0 +1,17 @@
+API's, REST API, mini task
+
+API : Is a set of rules and protocols, which helps to establish communication between 2 software system and exchange data
+REST API : It is a type of API, which works by sending requests and receiving responses, typically in JSON format, between the client and server. In REST "data = resources", stateless communication
+
+HTTP methods in REST :
+
+GET : server sends data, user recieves it
+POST : user sends data, server recieves and stores it
+PUT : updates resources by replacing it with new data
+PATCH : updates resources by partially modifying it
+DELETE : deletes resources
+
+req : all data receieved from the user is stored in req
+res : all the responses to be shared with the user is present in res
+
+mini-task : simple notes saving app

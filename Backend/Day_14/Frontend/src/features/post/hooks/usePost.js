@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect } from "react";
 import { PostContext } from "../post.context";
@@ -38,7 +39,7 @@ export function usePost() {
 
   useEffect(() => {
     handleGetFeed();
-  });
+  },[]);
 
   return {
     loading,

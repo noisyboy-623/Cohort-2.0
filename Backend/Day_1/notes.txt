@@ -1,0 +1,12 @@
+Intro to backend, packages, servers
+
+initializing a project : npm init -y
+to run script outside browser : node <fileName.js>
+package : Code written by other developers and made publicly available for other developers who can use the package in there own Code
+installing the packages : npm i <packageName>
+package.json : contains info about all the packages we used in our Code
+package-lock.json : contains info about the packages on which our installed package depend upon
+node_modules : contains files/other packages which our installed package requires to run properly
+
+server : A machiene which has its own OS, processor, RAM, storage and is programmed in such a way that it can send proper responses to the request sent by the user
+

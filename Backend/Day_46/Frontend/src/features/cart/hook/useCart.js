@@ -31,7 +31,7 @@ export const useCart = () => {
     }
 
     async function handleUpdateQuantity(itemId, quantity) {
-        dispatch(updateItem({ itemId, quantity }))
+        // dispatch(updateItem({ itemId, quantity }))
         const data = await updateQuantityApi(itemId, quantity)
         dispatch(setItems(data.cart?.items || []))
         return data

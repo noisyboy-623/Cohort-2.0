@@ -23,6 +23,7 @@ export async function removeItem(itemId) {
 }
 
 export async function updateQuantity(itemId, quantity) {
+    console.log(itemId, quantity)
     const response = await cartApiInstance.patch(`/${itemId}`, { quantity })
     return response.data
 }

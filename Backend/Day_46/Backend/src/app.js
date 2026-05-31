@@ -13,7 +13,7 @@ const app = express();
 
 app.use(cors({
     origin: ["http://localhost:5173","https://snitch-frontend-74sw.onrender.com"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
     credentials: true,
 }))
 
