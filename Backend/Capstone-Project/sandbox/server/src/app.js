@@ -18,13 +18,6 @@ app.get('/api/sandbox/health', (req, res) => {
     });
 });
 
-app.get('/api/sandbox/yolo', (req, res) => {
-    res.status(200).json({
-        message: 'Yolo API is healthy',
-        status: 'ok'
-    });
-});
-
 app.post("/api/sandbox/start", async(req, res) => {
 
     const sandboxId = uuid();

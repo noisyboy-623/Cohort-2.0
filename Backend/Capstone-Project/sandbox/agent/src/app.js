@@ -2,10 +2,21 @@ import express from "express";
 import morgan from "morgan";
 import fs from "fs";
 import path from "path";
+import { Server } from "socket.io";
+import http from "http";
+import pty from "node-pty";
+import os from "os";
 
 const WORKING_DIR = path.resolve(process.env.WORKING_DIR || "/workspace");
 
 const app = express();
+const httpServer = http.createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "PATCH"],
+  },
+});
 
 app.use(morgan("dev"));
 
@@ -16,6 +27,54 @@ app.get("/", (req, res) => {
   res.status(200).json({
     message: "Hello from sandbox agent!",
     status: "success",
+  });
+});
+
+const shell = process.env.SHELL || 'bash';
+let ptyProcess;
+
+try {
+  ptyProcess = pty.spawn(shell, [], {
+    name: 'xterm-color',
+    cols: 80,
+    rows: 30,
+    cwd: WORKING_DIR,
+    env: process.env
+  });
+
+  ptyProcess.onData(data => {
+    console.log("Emitting terminal-output:", data.toString().slice(0, 50));
+    io.emit("terminal-output", data.toString());
+  });
+
+  ptyProcess.onExit(({ exitCode, signal }) => {
+    console.log(`PTY process exited with code ${exitCode} and signal ${signal}`);
+    io.emit("terminal-exit", { exitCode, signal });
+  });
+
+  console.log("PTY process initialized successfully");
+} catch (error) {
+  console.error("Failed to spawn PTY process:", error);
+}
+
+io.on("connection", (socket) => {
+  console.log("Client connected:", socket.id);
+
+  socket.on("terminal-input", (data) => {
+    if (ptyProcess) {
+      ptyProcess.write(data);
+      console.log("Terminal input written:", data.slice(0, 50));
+    } else {
+      socket.emit("terminal-error", "PTY process not available");
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected:", socket.id);
+  });
+
+  socket.on("error", (error) => {
+    console.error("Socket error:", error);
   });
 });
 
@@ -31,38 +90,37 @@ app.get("/", (req, res) => {
  * }
  */
 app.get("/list-files", async (req, res) => {
-    
-    const excludedDirs = ["node_modules", ".git", "dist", "build"];
-    const walkDir = async (dir, baseDir) => {
-        let results = [];
-        const list = await fs.promises.readdir(dir);
-        for (const file of list) {
-            const filePath = path.join(dir, file);
-            const stat = await fs.promises.stat(filePath);  
-            if (stat && stat.isDirectory()) {
-                if (!excludedDirs.includes(file)) {
-                    const subDirResults = await walkDir(filePath, baseDir);
-                    results = results.concat(subDirResults);
-                }
-            } else {
-                results.push(path.relative(baseDir, filePath).replace(/\\/g, "/"));
-            }
+  const excludedDirs = ["node_modules", ".git", "dist", "build"];
+  const walkDir = async (dir, baseDir) => {
+    let results = [];
+    const list = await fs.promises.readdir(dir);
+    for (const file of list) {
+      const filePath = path.join(dir, file);
+      const stat = await fs.promises.stat(filePath);
+      if (stat && stat.isDirectory()) {
+        if (!excludedDirs.includes(file)) {
+          const subDirResults = await walkDir(filePath, baseDir);
+          results = results.concat(subDirResults);
         }
-        return results;
-    };
-
-    try {
-        const files = await walkDir(WORKING_DIR, WORKING_DIR);
-        res.status(200).json({
-            message: "Files listed successfully",
-            files,
-        });
-    } catch (err) {
-        res.status(500).json({
-            message: `Error listing files: ${err.message}`,
-            status: "error",
-        });
+      } else {
+        results.push(path.relative(baseDir, filePath).replace(/\\/g, "/"));
+      }
     }
+    return results;
+  };
+
+  try {
+    const files = await walkDir(WORKING_DIR, WORKING_DIR);
+    res.status(200).json({
+      message: "Files listed successfully",
+      files,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: `Error listing files: ${err.message}`,
+      status: "error",
+    });
+  }
 });
 
 /**
@@ -196,4 +254,4 @@ app.post("/create-files", async (req, res) => {
   });
 });
 
-export default app;
+export default httpServer;
