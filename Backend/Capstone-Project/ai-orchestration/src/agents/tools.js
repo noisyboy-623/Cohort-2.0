@@ -1,11 +1,10 @@
 import axios from "axios";
 import { tool } from "langchain";
-import { write } from "fs";
 import * as z from "zod";
 
 export const listFiles = tool(
   async ({}, config) => {
-    const writer = config.writer;
+    const writer = config.context?.writer ?? (() => {});
     writer("Invoking listFiles tool\n");
     const response = await axios.get(
       `http://sandbox-service-${config.context.projectId}:3000/list-files`,
@@ -23,7 +22,7 @@ export const listFiles = tool(
 
 export const readFile = tool(
   async ({ files = [] }, config) => {
-    const writer = config.writer;
+    const writer = config.context?.writer ?? (() => {});
     writer(`Invoking readFile tool with files: ${files.join(", ")}\n`);
     const response = await axios.get(
       `http://sandbox-service-${config.context.projectId}:3000/read-files?files=${files.join(",")}`,
@@ -49,7 +48,7 @@ export const readFile = tool(
 
 export const updateFile = tool(
   async ({ files }, config) => {
-    const writer = config.writer;
+    const writer = config.context?.writer ?? (() => {});
     writer(`Invoking updateFile tool with files: ${files.map(f => f.file).join(", ")}\n`);
     const response = await axios.patch(
       `http://sandbox-service-${config.context.projectId}:3000/update-files`,

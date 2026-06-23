@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -7,12 +7,12 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
-    allowedHosts: true
+    allowedHosts: true,
+    hmr: { protocol: "ws", clientPort: 80 },
+    watch: {
+      usePolling: true,
+      interval: 300,
+      ignore: ["node_modules"],
+    },
   },
-
-  watch: {
-    usePolling: true,
-    interval: 300,
-    ignore: ['node_modules']
-  }
-})
+});
