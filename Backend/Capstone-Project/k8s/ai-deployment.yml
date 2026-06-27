@@ -15,7 +15,7 @@ spec:
         app: ai-server
     spec:
       containers:
-        - image: ai-orchestration
+        - image: 208166434962.dkr.ecr.ap-south-1.amazonaws.com/ai-orchestration
           livenessProbe:
             httpGet:
               path: /api/status/healthz

@@ -55,24 +55,36 @@ spec:
             port: 
               number: 80
 
-  - host: "*.preview.localhost"
+  - host: a865a55e094254e7fbd3c014b87f6068-10104164.ap-south-1.elb.amazonaws.com
     http:
       paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: router-service
-            port:   
-              number: 80
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: router-service
+              port:
+                number: 80
 
-  - host: "*.agent.localhost"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: router-service
-            port:   
-              number: 80
+  # - host: "*.preview.localhost"
+  #   http:
+  #     paths:
+  #     - pathType: Prefix
+  #       path: "/"
+  #       backend:
+  #         service:
+  #           name: router-service
+  #           port:   
+  #             number: 80
+
+  # - host: "*.agent.localhost"
+  #   http:
+  #     paths:
+  #     - pathType: Prefix
+  #       path: "/"
+  #       backend:
+  #         service:
+  #           name: router-service
+  #           port:   
+  #             number: 80
+

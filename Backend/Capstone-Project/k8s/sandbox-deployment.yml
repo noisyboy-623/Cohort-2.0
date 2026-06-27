@@ -16,7 +16,7 @@ spec:
     spec:
       serviceAccountName: resource-manager
       containers:
-      - image:  sandbox:latest
+      - image:  208166434962.dkr.ecr.ap-south-1.amazonaws.com/sandbox
         imagePullPolicy: IfNotPresent
         name:  main-sandbox-container
         resources:
