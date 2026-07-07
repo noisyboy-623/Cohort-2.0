@@ -1,0 +1,83 @@
+import { generateToken } from "@/lib/jwt";
+import { connectDB } from "@/lib/mongodb";
+import UserModel from "@/models/User.model";
+import { ApiResponse } from "@/types/api.types";
+import { LoginBody } from "@/types/user.types";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(req: NextRequest) {
+  try {
+    await connectDB();
+
+    const body: LoginBody = await req.json();
+    const { email, password } = body;
+    if (!email || !password) {
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "All fields are required",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const isExists = await UserModel.findOne({ email });
+    if (!isExists)
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "User not found",
+        },
+        {
+          status: 404,
+        },
+      );
+    
+      const matchPass = isExists.comparePass(password)
+
+      if(!matchPass) return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "Invalid Credentials",
+        },
+        {
+          status: 401,
+        },
+      );
+
+    const token = generateToken({ userId: isExists._id.toString() });
+    const response = NextResponse.json<ApiResponse>(
+      {
+        success: true,
+        message: "User logged in successfully",
+        data: {
+          _id: isExists._id,
+          name: isExists.name,
+          email: isExists.email,
+        },
+      },
+      { status: 201 },
+    );
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 1000,
+    });
+    return response;
+  } catch (error) {
+    console.log("Error while registering", error);
+    return NextResponse.json<ApiResponse>(
+      {
+        success: false,
+        message: "Something went wrong",
+        error: { error },
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+}
