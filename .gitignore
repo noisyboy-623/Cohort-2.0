@@ -2,3 +2,9 @@ DOM/Day_50/Videos/
 *.mp4
 .txt
 node_modules
+*.zip
+
+
+# Separate repositories
+Cohort2-Projects/
+Frontend/DOM/Day_48 copy/
