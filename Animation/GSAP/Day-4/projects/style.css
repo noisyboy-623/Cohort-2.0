@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+.page{
+  height: 100vh;
+  width: 100%;
+}
+
+.page2{
+  position: relative
+}
+
+.content{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  gap: 80rem
+}
+
+.content h1{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 10rem;
+  color: white
+}
+
+.content{
+  overflow: hidden;
+}
+
+.sand{
+  position: absolute;
+  top: 100px;
+}
+
+.sea{
+  position: absolute;
+  bottom: 50px;
+}
+
+.and{
+  position: absolute;
+  top: 43%;
+  left: 47%;
+}
+
+.imageDiv{
+  height: 100%;
+  width: 100%;
+  transform-origin: center;
+}
+
+img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
