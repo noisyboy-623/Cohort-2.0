@@ -7,7 +7,7 @@ import { useRef } from "react";
 
 export default function Home() {
   return (
-    <main className="h-screen flex items-start w-full">
+    <main className="h-screen flex items-center justify-center w-full">
       <InfiniteCarousel projects={projects} />
     </main>
   );
