@@ -30,7 +30,6 @@ export async function POST (req: NextRequest){
         status: 201 
       })
     } catch (error) {
-        console.log("Error while creating resume", error)
         return NextResponse.json<ApiResponse>({
         success: false,
         message: "Something went wrong"

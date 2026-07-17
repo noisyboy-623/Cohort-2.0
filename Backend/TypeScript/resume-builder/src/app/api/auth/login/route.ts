@@ -68,7 +68,6 @@ export async function POST(req: NextRequest) {
     });
     return response;
   } catch (error) {
-    console.log("Error while registering", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,

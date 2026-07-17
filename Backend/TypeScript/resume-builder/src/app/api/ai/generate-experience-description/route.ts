@@ -78,7 +78,6 @@ export async function POST(req: NextRequest) {
       },
     );
   } catch (error) {
-    console.log("error in workExperienceDescription generation api", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,

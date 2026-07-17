@@ -71,7 +71,6 @@ export async function POST(req: NextRequest) {
       },
     );
   } catch (error) {
-    console.log("error in Generate summary api", error);
     return NextResponse.json<ApiResponse>(
       {
         success: false,
